@@ -1,0 +1,15 @@
+{
+    "name": "Hello World Task 01",
+    "key": "helloworld-task",
+    "index": 0,
+    "namespace": "HELLOWORLDNAMESPACE",
+    "channel-ref": {
+        "name": "helloworld-task-queue",
+        "category": "SYSTEM",
+        "type": "QUEUE",
+        "visibility": "GLOBAL",
+        "description": "This is a sample queue"
+    },
+    "concurrency": "3",
+    "description": "This is a sample task"
+}

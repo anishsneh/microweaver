@@ -1,0 +1,147 @@
+---
+master:
+  namespace: 
+    system: microweaver-system
+  configurations:
+    system:
+      CONTAINER_KUBERNETES_API_SERVER:
+        category: CONTAINER
+        provider: KUBERNETES
+        component: API_SERVER
+        host: 10.228.240.149
+        port: 8080
+        scheme: http
+      MESSAGING_RABBIT_MQ_SERVER:
+        category: MESSAGING
+        provider: RABBIT_MQ
+        component: SERVER
+        host: 10.228.240.149
+        port: 5672
+      CONTAINER_DOCKER_ENGINE_REGISTRY:
+        category: CONTAINER
+        provider: DOCKER_ENGINE
+        component: REGISTRY
+        host: 10.228.240.149
+        port: 5000
+      DATABASE_MYSQL_SERVER_SERVER:
+        category: DATABASE
+        provider: MYSQL_SERVER
+        host: 10.228.240.149
+        component: SERVER
+        port: 3306
+        user: root
+        secret: kashmir
+        schema: microweaver
+  deployments:
+    DATABASE_SERVICE:
+      name: microweaver-core-database
+      directory: microweaver-core-database
+      category: microweaver-databases
+      key: mysql
+      type: SYSTEM
+      bootstrap: true
+      index: 2
+    MESSAGING_SERVICE:
+      name: microweaver-core-messaging
+      directory: microweaver-core-messaging
+      category: microweaver-messaging
+      key: rabbitmq
+      type: SYSTEM
+      bootstrap: true
+      index: 3
+    PLATFORM_NAMESPACE:
+      name: microweaver-core-namespace
+      directory: microweaver-core-platform
+      category: microweaver-platform
+      key: namespace
+      type: SYSTEM
+      bootstrap: true
+      index: 0
+    PLATFORM_CONFIGURATION:
+      name: microweaver-master
+      directory: microweaver-core-platform
+      category: microweaver-platform
+      key: configmap
+      type: SYSTEM
+      bootstrap: true
+      index: 1
+    CORE_SERVICE:
+      name: microweaver-core-service
+      image: 
+        name: microweaver/microweaver-core-service
+        tag: 0.0.1-SNAPSHOT
+      replicas: 1
+      directory: microweaver-core-service
+      category: microweaver-services
+      port: 9180
+      key: core
+      type: SYSTEM
+      bootstrap: true
+      index: 8
+    REGISTRY_SERVICE_01:
+      name: microweaver-registry-service-01
+      image: 
+        name: microweaver/microweaver-registry-service
+        tag: 0.0.1-SNAPSHOT
+      replicas: 1
+      directory: microweaver-registry-service
+      category: microweaver-services
+      port: 9161
+      key: registry01
+      type: SYSTEM
+      bootstrap: true
+      index: 4
+    REGISTRY_SERVICE_02:
+      name: microweaver-registry-service-02
+      image: 
+        name: microweaver/microweaver-registry-service
+        tag: 0.0.1-SNAPSHOT
+      replicas: 1
+      directory: microweaver-registry-service
+      category: microweaver-services
+      port: 9161
+      key: registry02
+      type: SYSTEM
+      bootstrap: true
+      index: 5
+    GATEWAY_SERVICE:
+      name: microweaver-gateway-service
+      image: 
+        name: microweaver/microweaver-gateway-service
+        tag: 0.0.1-SNAPSHOT
+      replicas: 1
+      directory: microweaver-gateway-service
+      category: microweaver-services
+      port: 9165
+      key: gateway
+      type: SYSTEM
+      bootstrap: true
+      index: 6
+    ADMIN_SERVICE:
+      name: microweaver-admin-service
+      image: 
+        name: microweaver/microweaver-admin-service
+        tag: 0.0.1-SNAPSHOT
+      replicas: 1
+      directory: microweaver-admin-service
+      category: microweaver-services
+      port: 9190
+      key: admin
+      type: SYSTEM
+      bootstrap: true
+      index: 7
+    SIDECAR_SERVICE:
+      name: microweaver-sidecar-service
+      image: 
+        name: microweaver/microweaver-sidecar-service
+        tag: 0.0.1-SNAPSHOT
+      replicas: 1
+      directory: microweaver-sidecar-service
+      category: microweaver-services
+      port: 9178
+      sidecarPort: 7000
+      key: sidecar
+      type: SYSTEM
+      bootstrap: true
+      index: 9
+        

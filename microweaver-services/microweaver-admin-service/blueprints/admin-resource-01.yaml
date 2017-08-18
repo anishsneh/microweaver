@@ -1,0 +1,32 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: microweaver-admin-service
+  name: microweaver-admin-service
+  namespace: microweaver-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: microweaver-admin-service
+  template:
+    metadata:
+      labels:
+        app: microweaver-admin-service
+      name: microweaver-admin-service
+      namespace: microweaver-system
+    spec:
+      containers:
+      - name: microweaver-admin-service
+        image: 10.228.240.149:5000/microweaver/microweaver-admin-service:0.0.1-SNAPSHOT
+        ports:
+        - containerPort: 9190
+        imagePullPolicy: Always
+        env:
+        - name: MICROSERVICE_SERVICE_NAME
+          value: microweaver-admin-service
+        - name: EUREKA_SERVICE_NAME_01
+          value: microweaver-registry-service-01
+        - name: EUREKA_SERVICE_NAME_02
+          value: microweaver-registry-service-02

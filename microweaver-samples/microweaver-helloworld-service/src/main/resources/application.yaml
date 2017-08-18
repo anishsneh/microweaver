@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: helloworld-service
+    
+info:
+    enabled: true
+    sensitive: false
+    app:
+      name: Hello World
+      version: 1.0.0
+        
+endpoints:
+  enabled: true
+   
+server:
+  port: 8180
+  servletPath: /
+ 
+management:
+  security:
+    enabled: false
+  
+eureka:
+  instance:
+    hostname: ${MICROSERVICE_SERVICE_NAME}
+    preferIpAddress: false
+    leaseRenewalIntervalInSeconds: 5
+    leaseExpirationDurationInSeconds: 5
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://${EUREKA_SERVICE_NAME_01}:9161/eureka/,http://${EUREKA_SERVICE_NAME_02}:9161/eureka/
+    healthcheck:
+      enabled: true
+    
+springfox:
+  documentation:
+    swagger:
+      v2:
+        path: /swagger.json

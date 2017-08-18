@@ -1,0 +1,39 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: microweaver-registry-service-01  
+  namespace: microweaver-system
+  labels:
+    app: microweaver-registry-service-01
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: microweaver-registry-service-01
+      namespace: microweaver-system
+      labels:
+        app: microweaver-registry-service-01
+    spec:
+      containers:
+      - name: microweaver-registry-service-01
+        image: 10.228.240.149:5000/microweaver/microweaver-registry-service:0.0.1-SNAPSHOT
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 9161
+          initialDelaySeconds: 20
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 9161
+          initialDelaySeconds: 20
+        ports:
+        - containerPort: 9161
+        imagePullPolicy: Always
+        env:
+        - name: MICROSERVICE_SERVICE_NAME
+          value: microweaver-registry-service-01
+        - name: EUREKA_SERVICE_NAME_01
+          value: microweaver-registry-service-01
+        - name: EUREKA_SERVICE_NAME_02
+          value: microweaver-registry-service-02

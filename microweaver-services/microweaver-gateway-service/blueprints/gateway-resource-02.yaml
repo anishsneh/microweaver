@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: microweaver-gateway-service
+  name: microweaver-gateway-service
+  namespace: microweaver-system
+spec:
+  type: NodePort  
+  ports:
+  - name: http
+    port: 9165
+    nodePort: 30080
+    targetPort: 9165
+    protocol: TCP
+  selector:
+    app: microweaver-gateway-service

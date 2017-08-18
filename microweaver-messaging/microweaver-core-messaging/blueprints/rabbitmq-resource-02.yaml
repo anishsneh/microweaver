@@ -1,0 +1,10 @@
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: microweaver-core-messaging
+  namespace: microweaver-system
+subsets:
+- addresses:
+  - ip: 127.0.0.1
+  ports:
+  - port: 5672

@@ -1,0 +1,9 @@
+{
+    "key": "registry-service",
+    "index": 0,
+    "image": "registry-service",
+    "ports": {
+        "port": "8080"
+    },
+    "replicas": "2"
+}

@@ -1,0 +1,18 @@
+{
+    "id": "helloworld-workflow",
+    "tasks": [
+        {
+            "key-reference": "helloworld-task",
+            "conditions": [
+                {
+                    "variable": "USER_NAME",
+                    "namespace": "helloworldnamespace",
+                    "type": "STRING",
+                    "operator": "EQUALS",
+                    "value": "ALICE"
+                }
+            ]
+        }
+    ],
+    "description": "This is a sample workflow"
+}

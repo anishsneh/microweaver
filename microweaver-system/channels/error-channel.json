@@ -1,0 +1,9 @@
+{
+    "name": "error-queue",
+    "key": "error-queue",
+    "index": 0,
+    "category": "SYSTEM",
+    "type": "QUEUE",
+    "visibility": "GLOBAL",
+    "description": "This is a sample queue"
+}

@@ -1,0 +1,51 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.anishsneh.microweaver</groupId>
+	<artifactId>microweaver</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>microweaver</name>
+	<description>Microweaver</description>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.5.4.RELEASE</version>
+		<relativePath />
+	</parent>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+		<spring-cloud.version>Dalston.SR1</spring-cloud.version>
+		<docker.image.prefix>microweaver</docker.image.prefix>
+		<docker.registry.url>10.228.240.149:5000</docker.registry.url>
+		<!-- Skipping test for now -->
+		<maven.test.skip>true</maven.test.skip>
+	</properties>
+	<modules>
+		<module>microweaver-platform</module>
+		<module>microweaver-services</module>
+		<module>microweaver-samples</module>
+		<module>microweaver-tools</module>
+	</modules>
+	<profiles>
+		<profile>
+			<id>docker</id>
+		</profile>
+	</profiles>
+	<build>
+		<plugins>
+			<!-- Disable default deploy plugin unless target maven repository is configured -->
+			<plugin>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>default-deploy</id>
+						<phase>none</phase>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: admin-service
+    
+server:
+  port: 9190
+  
+management:
+  security:
+    enabled: false
+
+eureka:
+  instance:
+    hostname: ${MICROSERVICE_SERVICE_NAME}
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 2
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://${EUREKA_SERVICE_NAME_01}:9161/eureka/,http://${EUREKA_SERVICE_NAME_02}:9161/eureka/
+    healthcheck:
+      enabled: true

@@ -1,0 +1,10 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: microweaver-core-messaging
+  namespace: microweaver-system
+spec:
+  ports:
+  - protocol: TCP
+    port: 5672
+    targetPort: 5672

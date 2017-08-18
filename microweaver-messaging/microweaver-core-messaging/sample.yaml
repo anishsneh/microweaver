@@ -1,0 +1,25 @@
+#
+# RabbitMQ
+#
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: microweaver-core-broker
+  namespace: microweaver-system
+spec:
+  ports:
+  - protocol: TCP
+    port: 5672
+    targetPort: 5672
+---
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: microweaver-core-broker
+  namespace: microweaver-system
+subsets:
+- addresses:
+  - ip: 10.228.240.149
+  ports:
+  - port: 5672

@@ -1,0 +1,35 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>microweaver-tools</artifactId>
+	<packaging>pom</packaging>
+	<name>microweaver-services</name>
+	<description>Microservice components</description>
+	<parent>
+		<groupId>com.anishsneh.microweaver</groupId>
+		<artifactId>microweaver</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<modules>
+		<module>microweaver-core-tools</module>
+	</modules>
+	<profiles>
+		<profile>
+			<id>docker</id>
+		</profile>
+	</profiles>
+	<build>
+		<plugins>
+			<!-- Disable default deploy plugin unless target maven repository is configured -->
+			<plugin>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>default-deploy</id>
+						<phase>none</phase>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

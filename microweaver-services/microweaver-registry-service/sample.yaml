@@ -1,0 +1,107 @@
+# 
+# Configuration to deploy service
+#
+# - microweaver-registry-service
+#
+# Peer 01
+#
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: microweaver-registry-service-01  
+  namespace: microweaver-system
+  labels:
+    app: microweaver-registry-service-01
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: microweaver-registry-service-01
+      namespace: microweaver-system
+      labels:
+        app: microweaver-registry-service-01
+    spec:
+      containers:
+      - name: microweaver-registry-service-01
+        image: 10.228.240.149:5000/microweaver/microweaver-registry-service:0.0.1-SNAPSHOT
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 9161
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 9161
+        ports:
+        - containerPort: 9161
+        imagePullPolicy: Always
+        env:
+        - name: MICROSERVICE_SERVICE_NAME
+          value: microweaver-registry-service-01
+        - name: EUREKA_SERVICE_NAME_01
+          value: microweaver-registry-service-01
+        - name: EUREKA_SERVICE_NAME_02
+          value: microweaver-registry-service-02
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: microweaver-registry-service-01
+  namespace: microweaver-system
+  labels:
+    app: microweaver-registry-service-01
+spec:
+  ports:
+  - name: http
+    port: 9161
+    protocol: TCP
+  selector:
+    app: microweaver-registry-service-01
+---
+#
+# Peer 02
+#
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: microweaver-registry-service-02  
+  namespace: microweaver-system
+  labels:
+    app: microweaver-registry-service-02
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: microweaver-registry-service-02
+      namespace: microweaver-system
+      labels:
+        app: microweaver-registry-service-02
+    spec:
+      containers:
+      - name: microweaver-registry-service-02
+        image: 10.228.240.149:5000/microweaver/microweaver-registry-service:0.0.1-SNAPSHOT
+        ports:
+        - containerPort: 9161
+        imagePullPolicy: Always
+        env:
+        - name: MICROSERVICE_SERVICE_NAME
+          value: microweaver-registry-service-02
+        - name: EUREKA_SERVICE_NAME_01
+          value: microweaver-registry-service-01
+        - name: EUREKA_SERVICE_NAME_02
+          value: microweaver-registry-service-02
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: microweaver-registry-service-02
+  namespace: microweaver-system
+  labels:
+    app: microweaver-registry-service-02
+spec:
+  ports:
+  - name: http
+    port: 9161
+    protocol: TCP
+  selector:
+    app: microweaver-registry-service-02

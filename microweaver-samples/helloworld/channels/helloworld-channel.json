@@ -1,0 +1,9 @@
+{
+    "name": "helloworld-queue",
+    "key": "helloworld-queue",
+    "index": 0,
+    "category": "WORKFLOW",
+    "type": "QUEUE",
+    "visibility": "WORKFLOW",
+    "description": "This is a sample queue"
+}

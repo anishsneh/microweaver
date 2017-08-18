@@ -1,0 +1,59 @@
+spring:
+  application:
+    name: core-service
+  datasource:
+    url: jdbc:mysql://microweaver-core-database:3306/microweaver
+    username: root
+    password: kashmir
+    testWhileIdle: true
+    validationQuery: SELECT 1 
+    tomcat:
+      max-active: 50
+      max-idle: 20
+      max-wait: 20000
+      min-idle: 15
+  jpa:
+    show-sql: true
+    hibernate:
+      dialect: org.hibernate.dialect.MySQLDialect
+      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+      ddl-auto: update      
+      format_sql: true
+      
+info:
+    enabled: true
+    sensitive: false
+    app:
+      name: Hello World
+      version: 1.0.0
+        
+endpoints:
+  enabled: true
+   
+server:
+  port: 9180
+  servletPath: /
+ 
+management:
+  security:
+    enabled: false
+  
+eureka:
+  instance:
+    hostname: ${MICROSERVICE_SERVICE_NAME}
+    preferIpAddress: false
+    leaseRenewalIntervalInSeconds: 5
+    leaseExpirationDurationInSeconds: 5
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://${EUREKA_SERVICE_NAME_01}:9161/eureka/,http://${EUREKA_SERVICE_NAME_02}:9161/eureka/
+    healthcheck:
+      enabled: true
+    
+springfox:
+  documentation:
+    swagger:
+      v2:
+        path: /swagger.json
