@@ -331,19 +331,4 @@ public class BootstrapUtil {
 	public static Integer getBootstrapRequestTimeout() {
 		return SYSTEM_REQUEST_TIMEOUT_SECONDS;
 	}
-	
-	/**
-	 * The main method.
-	 *
-	 * @param s the arguments
-	 */
-	public static void main(String s[]) {
-		final KubernetesClient kClient = new KubernetesApiHelper().getClient("http://10.228.240.149:8080");
-		final ConfigMap masterConfigMap = kClient.configMaps().inNamespace(ApiContants.SYSTEM_NAMESPACE).withName(ApiContants.SYSTEM_CONFIGMAP_MASTER).get();
-		final Map<String, String> configData = masterConfigMap.getData();
-		for(final Map.Entry<String, String> configEntry : configData.entrySet()) {
-			logger.info("[{}={}]", configEntry.getKey(), configEntry.getValue());
-		}
-		System.out.println(BootstrapUtil.getBootstrapDeployments(configData));
-	}
 }

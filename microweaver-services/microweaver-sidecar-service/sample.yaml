@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
       - name: microweaver-sidecar-service
-        image: 10.228.240.149:5000/microweaver/microweaver-sidecar-service:0.0.1-SNAPSHOT
+        image: 192.168.57.147:5000/microweaver/microweaver-sidecar-service:0.0.1-SNAPSHOT
         livenessProbe:
           httpGet:
             path: /health
@@ -36,9 +36,9 @@ spec:
             port: http-sidecar
           initialDelaySeconds: 20
         ports:
-        - name: http-sidecar
+        - name: http-main
           containerPort: 9178
-        - name: http-flask
+        - name: http-sidecar
           containerPort: 7000
         imagePullPolicy: Always
         env:

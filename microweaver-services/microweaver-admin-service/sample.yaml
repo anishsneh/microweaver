@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
       - name: microweaver-admin-service
-        image: 10.228.240.149:5000/microweaver/microweaver-admin-service:0.0.1-SNAPSHOT
+        image: 192.168.57.147:5000/microweaver/microweaver-admin-service:0.0.1-SNAPSHOT
         ports:
         - containerPort: 9190
         imagePullPolicy: Always

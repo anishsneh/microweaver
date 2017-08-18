@@ -8,25 +8,25 @@ master:
         category: CONTAINER
         provider: KUBERNETES
         component: API_SERVER
-        host: 10.228.240.149
+        host: 192.168.57.147
         port: 8080
         scheme: http
       MESSAGING_RABBIT_MQ_SERVER:
         category: MESSAGING
         provider: RABBIT_MQ
         component: SERVER
-        host: 10.228.240.149
+        host: 192.168.57.147
         port: 5672
       CONTAINER_DOCKER_ENGINE_REGISTRY:
         category: CONTAINER
         provider: DOCKER_ENGINE
         component: REGISTRY
-        host: 10.228.240.149
+        host: 192.168.57.147
         port: 5000
       DATABASE_MYSQL_SERVER_SERVER:
         category: DATABASE
         provider: MYSQL_SERVER
-        host: 10.228.240.149
+        host: 192.168.57.147
         component: SERVER
         port: 3306
         user: root
