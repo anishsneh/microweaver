@@ -1,0 +1,73 @@
+---
+- hosts: all
+  sudo: true
+  tasks:
+    # YUM install packages
+    - name: INSTALL BASIC PACKAGES
+      yum:
+        name: "{{ item }}"
+        state: present
+      with_items:
+       - wget
+       - nginx
+       - python
+       - tinyproxy
+       - java-1.8.0-openjdk
+       - bind-utils
+       - telnet
+       - python
+       - python-pip
+       - mariadb
+       - mariadb-server
+       - MySQL-python
+       - rabbitmq-server
+       - kubernetes
+       - etcd
+       - iptables
+       - openssl
+       - bind-utils
+    # Set hostname
+    - name: SET HOSTNAME
+      hostname:
+        name: "kubernetes-all"
+    # Disable firewall
+    - name: STOP AND DISABLE FIREWALLD
+      service:
+        name: firewalld
+        state: stopped
+        enabled: False
+    # Start and enable services
+    - name: START AND ENABLE SERVICES
+      service: 
+        name: "{{ item }}"
+        state: restarted
+        enabled: yes
+      with_items:
+        - mariadb
+        - rabbitmq-server
+        - nginx
+    # Configure MariaDB & create microweaver DB
+    - name: SET MARIADB ROOT USER PASSWORD
+      mysql_user:
+        name: root
+        password: topsecret
+        check_implicit_admin: true
+    - name: RESTART MARIADB SERVER
+      service: 
+        name: mariadb
+        state: restarted
+    - name: CREATE MICROWEAVER DATABASE
+      mysql_db: 
+        name: microweaver
+        login_user: root
+        login_password: topsecret
+        state: present
+    # Configure RabbitMQ
+    - name: ENABLE RAABBITMQ UI PLUGIN
+      rabbitmq_plugin:
+        names: rabbitmq_management
+        state: enabled
+    - name: RESTART RAABBITMQ SERVER
+      service: 
+        name: rabbitmq-server
+        state: restarted   

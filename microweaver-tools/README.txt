@@ -1,3 +1,4 @@
+configure tinyproxy
 static ip for vm
 give path of ca bundle /etc/kubernetes/controller-manager
 	KUBE_CONTROLLER_MANAGER_ARGS="--service_account_private_key_file=/etc/pki/kube-apiserver/serviceaccount.key --root-ca-file=/etc/ssl/certs/ca-bundle.crt"
