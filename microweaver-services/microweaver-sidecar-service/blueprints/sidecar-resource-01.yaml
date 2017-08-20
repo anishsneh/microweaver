@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: microweaver-sidecar-service
-        image: 192.168.57.147:5000/microweaver/microweaver-sidecar-service:0.0.1-SNAPSHOT
+        image: 192.168.57.150:5000/microweaver/microweaver-sidecar-service:0.0.1-SNAPSHOT
         livenessProbe:
           httpGet:
             path: /health

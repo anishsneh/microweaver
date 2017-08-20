@@ -1,14 +1,30 @@
-ip_address = "192.168.57.150"
+#
+#
+# Vagrant definition to create and configure single node standlone Kubernetes cluster
+# This will use Ansible provisioner
+#
+# @author Anish Sneh
+#
+#
+kube_ip_address = "192.168.57.150"
+kube_host_name = "kubehost"
 Vagrant.configure("2") do |config|
   config.vm.box = "centos/7"
-  config.vm.network :private_network, ip: ip_address
-  config.vm.provider :virtualbox do |vb|
-    vb.name = "kubernetes-all"
+  config.vm.provider "virtualbox" do |vb|
+  	vb.name = "kubehost"
+    vb.memory = 4096
+    vb.cpus = 4
   end
+  config.vm.network :private_network, ip: kube_ip_address
   config.vm.provision "shell", inline: <<-SHELL
     yum install -y epel-release
   SHELL
   config.vm.provision :ansible do |ansible|
     ansible.playbook = "playbook.yaml"
+    ansible.verbose = "v"
+    ansible.extra_vars = { 
+      "k_hostname" => kube_host_name,
+      "k_ip" => kube_ip_address
+    }
   end
 end

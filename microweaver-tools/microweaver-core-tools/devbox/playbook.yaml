@@ -1,13 +1,29 @@
+#
+#
+# Ansible playbook to configure single node standlone Kubernetes cluster
+# This will be invoked by Vagrant Ansible provisioner
+#
+# @author Anish Sneh
+#
+#
 ---
 - hosts: all
   sudo: true
+  vars:
+    kube_hostname: "{{ k_hostname }}"
+    kube_ip: "{{ k_ip }}"
   tasks:
-    # YUM install packages
+    ##### Set hostname
+    - name: SET HOSTNAME
+      hostname:
+        name: "{{ kube_hostname }}"
+    ##### YUM install packages
     - name: INSTALL BASIC PACKAGES
       yum:
         name: "{{ item }}"
         state: present
       with_items:
+       - vim
        - wget
        - nginx
        - python
@@ -17,6 +33,7 @@
        - telnet
        - python
        - python-pip
+       - python-yaml
        - mariadb
        - mariadb-server
        - MySQL-python
@@ -25,19 +42,16 @@
        - etcd
        - iptables
        - openssl
+       - docker-registry
        - bind-utils
-    # Set hostname
-    - name: SET HOSTNAME
-      hostname:
-        name: "kubernetes-all"
-    # Disable firewall
+    ##### Disable firewall
     - name: STOP AND DISABLE FIREWALLD
       service:
         name: firewalld
         state: stopped
         enabled: False
-    # Start and enable services
-    - name: START AND ENABLE SERVICES
+    ##### Start and enable services
+    - name: START AND ENABLE PLATFORM SERVICES
       service: 
         name: "{{ item }}"
         state: restarted
@@ -46,7 +60,8 @@
         - mariadb
         - rabbitmq-server
         - nginx
-    # Configure MariaDB & create microweaver DB
+        - docker-distribution
+    ##### Configure MariaDB & create microweaver DB
     - name: SET MARIADB ROOT USER PASSWORD
       mysql_user:
         name: root
@@ -62,12 +77,116 @@
         login_user: root
         login_password: topsecret
         state: present
-    # Configure RabbitMQ
-    - name: ENABLE RAABBITMQ UI PLUGIN
+    ##### Configure RabbitMQ
+    - name: ENABLE RABBITMQ UI PLUGIN
       rabbitmq_plugin:
         names: rabbitmq_management
         state: enabled
-    - name: RESTART RAABBITMQ SERVER
+    - name: RESTART RABBITMQ SERVER
       service: 
         name: rabbitmq-server
-        state: restarted   
+        state: restarted
+    ##### Configure tinyproxy
+    - name: CONFIGURE TINY PROXY
+      lineinfile:
+        path: "/etc/tinyproxy/tinyproxy.conf"
+        regexp: '^Allow 127.0.0.1'
+        state: absent
+    - name: RESTART TINYPROXY
+      service: 
+        name: tinyproxy
+        state: restarted
+    ##### Configure Kubernetes cluster
+    - name: UPDATE API SERVER CONFIGURATION | KUBE_API_ADDRESS
+      lineinfile:
+        path: "/etc/kubernetes/apiserver"
+        regexp: '^KUBE_API_ADDRESS='
+        state: present
+        create: no
+        line: 'KUBE_API_ADDRESS="--insecure-bind-address=0.0.0.0"'
+    - name: UPDATE API SERVER CONFIGURATION | KUBE_API_ARGS
+      lineinfile:
+        path: "/etc/kubernetes/apiserver"
+        regexp: '^KUBE_API_ARGS='
+        state: present
+        create: no
+        line: 'KUBE_API_ARGS="--service_account_key_file=/etc/pki/kube-apiserver/serviceaccount.key"'
+    - name: UPDATE CONTROLLER MANAGER CONFIGURATION | KUBE_CONTROLLER_MANAGER_ARGS
+      lineinfile:
+        path: "/etc/kubernetes/controller-manager"
+        regexp: '^KUBE_CONTROLLER_MANAGER_ARGS='
+        state: present
+        create: no
+        line: 'KUBE_CONTROLLER_MANAGER_ARGS="--service_account_private_key_file=/etc/pki/kube-apiserver/serviceaccount.key --root-ca-file=/etc/ssl/certs/ca-bundle.crt"'
+    - name: UPDATE KUBELET CONFIGURATION | KUBELET_ARGS
+      lineinfile:
+        path: "/etc/kubernetes/kubelet"
+        regexp: '^KUBELET_ARGS='
+        state: present
+        create: no
+        line: 'KUBELET_ARGS="--cluster-dns=10.254.0.10 --cluster-domain=cluster.local"'
+    - name: CREATE KUBERNETES DIRECTORY
+      file:
+        path: /var/run/kubernetes
+        owner: kube
+        group: kube
+        state: directory
+        mode: 0750
+    - name: CREATE KUBERNETES DIRECTORY
+      file:
+        path: /etc/pki/kube-apiserver
+        owner: kube
+        group: kube
+        state: directory
+    - name: GENERATE KUBERNETES RSA KEY
+      command: openssl genrsa -out /etc/pki/kube-apiserver/serviceaccount.key 2048
+    - name: UPDATE DOCKER DEFAULT CONFIGURATION | DOCKER_OPTS
+      lineinfile:
+        path: "/etc/default/docker"
+        regexp: '^DOCKER_OPTS='
+        state: present
+        create: yes
+        line: 'DOCKER_OPTS="$DOCKER_OPTS --insecure-registry {{ kube_ip }}:5000"'
+    - name: RESTART KUBERNETES SERVICES
+      service: 
+        name: "{{ item }}"
+        state: restarted
+        enabled: yes
+      with_items:
+        - etcd 
+        - kube-apiserver
+        - kube-controller-manager
+        - kube-scheduler
+        - kube-proxy 
+        - kubelet
+        - docker
+        - docker-distribution
+    ##### Deploy Kubernetes dashboard
+    - name: DEPLOY KUBERNETES DASHBOARD
+      command: kubectl create -f /vagrant/resources/dashboard.yaml
+    ##### Retrieve kubernetes api cluster ip
+    - name: RETRIEVE KUBERNETES API CLUSTER IP
+      uri:
+        url: http://{{ kube_ip }}:8080/api/v1/namespaces/default/services/kubernetes
+        return_content: yes
+      register: json_response
+    - name: EXTRACT AND APPEND API KEY TO ROOT CA
+      command: bash -c 'true | openssl s_client -connect {{ json_response.json.spec.clusterIP }}:443 2>/dev/null | openssl x509 -in /dev/stdin >> /etc/ssl/certs/ca-bundle.crt'
+    ##### Deploy core dns
+    - name: DEPLOY CORE DNS
+      command: kubectl create -f /vagrant/resources/coredns.yaml
+    ##### Finally restart kubernetes services
+    - name: FINALLY RESTART KUBERNETES SERVICES
+      service: 
+        name: "{{ item }}"
+        state: restarted
+        enabled: yes
+      with_items:
+        - etcd 
+        - kube-apiserver
+        - kube-controller-manager
+        - kube-scheduler
+        - kube-proxy 
+        - kubelet
+        - docker
+        - docker-distribution

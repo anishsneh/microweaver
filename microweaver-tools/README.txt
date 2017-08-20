@@ -8,7 +8,7 @@ kubernetes-dashboard.yaml
           # Uncomment the following line to manually specify Kubernetes API server Host
           # If not specified, Dashboard will attempt to auto discover the API server and connect
           # to it. Uncomment only if the default does not work.
-          - --apiserver-host=http://192.168.57.147:8080
+          - --apiserver-host=http://192.168.57.150:8080
         livenessProbe:
         
         
@@ -22,7 +22,7 @@ yum install -y bind-utils
 		
 docker run -p 5000:5000 registry
 	
-http://192.168.57.147:8080/ui
+http://192.168.57.150:8080/ui
 http://172.17.0.5:8180/swagger-ui.html
 
 kubectl exec --namespace=microweaver-system microweaver-core-service-2618224193-5rs3w -- ls /bin

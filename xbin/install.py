@@ -10,7 +10,7 @@ import time
 
 _MICROWEAVER_HOME = os.getenv("MICROWEAVER_HOME")
 
-_master_conf_path_tpl = "{}/conf/master.yaml"
+_master_conf_path_tpl = "{}/xconf/master.yaml"
 
 _check_status = False
 _min_replicas = 1

@@ -4,7 +4,7 @@ spring:
   datasource:
     url: jdbc:mysql://microweaver-core-database:3306/microweaver
     username: root
-    password: kashmir
+    password: topsecret
     testWhileIdle: true
     validationQuery: SELECT 1 
     tomcat:

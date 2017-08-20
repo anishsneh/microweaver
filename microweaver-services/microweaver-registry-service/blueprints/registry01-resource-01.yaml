@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: microweaver-registry-service-01
-        image: 192.168.57.147:5000/microweaver/microweaver-registry-service:0.0.1-SNAPSHOT
+        image: 192.168.57.150:5000/microweaver/microweaver-registry-service:0.0.1-SNAPSHOT
         livenessProbe:
           httpGet:
             path: /health
