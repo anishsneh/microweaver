@@ -8,10 +8,14 @@
 #
 ---
 - hosts: all
-  sudo: true
+  become: yes
+  become_method: sudo
   vars:
     kube_hostname: "{{ k_hostname }}"
     kube_ip: "{{ k_ip }}"
+    db_user: "root"
+    db_secret: "topsecret"
+    db_name: "microweaver"
   tasks:
     ##### Set hostname
     - name: SET HOSTNAME
@@ -64,8 +68,8 @@
     ##### Configure MariaDB & create microweaver DB
     - name: SET MARIADB ROOT USER PASSWORD
       mysql_user:
-        name: root
-        password: topsecret
+        name: "{{ db_user }}"
+        password: "{{ db_secret }}"
         check_implicit_admin: true
     - name: RESTART MARIADB SERVER
       service: 
@@ -73,10 +77,17 @@
         state: restarted
     - name: CREATE MICROWEAVER DATABASE
       mysql_db: 
-        name: microweaver
-        login_user: root
-        login_password: topsecret
+        name: "{{ db_name }}"
+        login_user: "{{ db_user }}"
+        login_password: "{{ db_secret }}"
         state: present
+    - name: CONFIGURE MICROWEAVER DATABASE REMOTE ACCESS
+      mysql_user: 
+        name: "{{ db_user }}"
+        login_password: "{{ db_secret }}"
+        password: "{{ db_secret }}"
+        priv: "{{ db_name }}.*:ALL"
+        host: "%"
     ##### Configure RabbitMQ
     - name: ENABLE RABBITMQ UI PLUGIN
       rabbitmq_plugin:
@@ -147,6 +158,13 @@
         state: present
         create: yes
         line: 'DOCKER_OPTS="$DOCKER_OPTS --insecure-registry {{ kube_ip }}:5000"'
+    - name: UPDATE DOCKER DEFAULT CONFIGURATION | INSECURE_REGISTRY
+      lineinfile:
+        path: "/etc/sysconfig/docker"
+        regexp: '^INSECURE_REGISTRY='
+        state: present
+        create: yes
+        line: 'INSECURE_REGISTRY="--insecure-registry {{ kube_ip }}:5000"'
     - name: RESTART KUBERNETES SERVICES
       service: 
         name: "{{ item }}"
@@ -163,7 +181,7 @@
         - docker-distribution
     ##### Deploy Kubernetes dashboard
     - name: DEPLOY KUBERNETES DASHBOARD
-      command: kubectl create -f /vagrant/resources/dashboard.yaml
+      command: kubectl create -f /vagrant/resources/kubernetes-dashboard.yaml
     ##### Retrieve kubernetes api cluster ip
     - name: RETRIEVE KUBERNETES API CLUSTER IP
       uri:
@@ -174,7 +192,7 @@
       command: bash -c 'true | openssl s_client -connect {{ json_response.json.spec.clusterIP }}:443 2>/dev/null | openssl x509 -in /dev/stdin >> /etc/ssl/certs/ca-bundle.crt'
     ##### Deploy core dns
     - name: DEPLOY CORE DNS
-      command: kubectl create -f /vagrant/resources/coredns.yaml
+      command: kubectl create -f /vagrant/resources/kubernetes-coredns.yaml
     ##### Finally restart kubernetes services
     - name: FINALLY RESTART KUBERNETES SERVICES
       service: 

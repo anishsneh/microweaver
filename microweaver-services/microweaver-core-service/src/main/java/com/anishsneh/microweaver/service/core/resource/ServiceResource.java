@@ -85,8 +85,8 @@ public class ServiceResource {
 	public ResponseEntity<Service> createService(
 			@RequestBody final Service service
 			){
-		CommonUtil.validate(service, CreateGroup.class);
 		service.setServiceType(CommonUtil.SERVICE_TYPE_USER);
+		CommonUtil.validate(service, CreateGroup.class);
 		final Service newService = serviceHelper.createService(service);
 		logger.info("Created service: " + newService.toString());
 		return new ResponseEntity<Service>(newService, HttpStatus.CREATED);

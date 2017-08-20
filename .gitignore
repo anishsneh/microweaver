@@ -446,3 +446,4 @@ target/
 **.classpath
 **target
 /.recommenders/
+**.vagrant
