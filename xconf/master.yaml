@@ -39,6 +39,7 @@ master:
       directory: microweaver-core-database
       category: microweaver-databases
       key: mysql
+      secret: topsecret
       type: SYSTEM
       bootstrap: true
       index: 2
@@ -47,6 +48,7 @@ master:
       directory: microweaver-core-messaging
       category: microweaver-messaging
       key: rabbitmq
+      secret: topsecret
       type: SYSTEM
       bootstrap: true
       index: 3

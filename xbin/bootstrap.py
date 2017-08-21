@@ -206,9 +206,18 @@ def _create_deployment(master_conf, deployment, ro):
                             "value" : db_service.get("name")
                         },
                         {
+                            "name" : "SYSTEM_DB_SECRET",
+                            "value" : db_service.get("secret")
+                        },
+                        {
                             "name" : "SYSTEM_MQ_HOST",
                             "value" : mq_service.get("name")
+                        },
+                        {
+                            "name" : "SYSTEM_MQ_SECRET",
+                            "value" : mq_service.get("secret")
                         }
+                                        
                     ]
                     tplspec["containers"][container_index]["env"] = environment_vars
     _pretty_print_json(ro, "Service definition")

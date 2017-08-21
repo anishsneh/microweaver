@@ -11,11 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 
-import com.anishsneh.microweaver.service.core.helper.KubernetesApiHelper;
 import com.anishsneh.microweaver.service.core.vo.Service;
-
-import io.fabric8.kubernetes.api.model.ConfigMap;
-import io.fabric8.kubernetes.client.KubernetesClient;
 
 /**
  * The Class BootstrapUtil.
@@ -86,11 +82,16 @@ public class BootstrapUtil {
 	/** The Constant SERVICE_FQDN_TPL. */
 	private static final String SERVICE_FQDN_TPL = "%s.%s.svc.%s";
 	
+	/** The Constant MASTER_DB_SERVICE_NAME_KEY. */
 	private static final String MASTER_DB_SERVICE_NAME_KEY = "master.deployments.DATABASE_SERVICE.name";
 	
 	/** The Constant MASTER_DB_SERVICE_PORT_KEY. */
 	private static final String MASTER_DB_SERVICE_PORT_KEY = "master.configurations.system.DATABASE_MYSQL_SERVER_SERVER.port";
 	
+	/** The Constant MASTER_DB_SERVICE_SECRET_KEY. */
+	private static final String MASTER_DB_SERVICE_SECRET_KEY = "master.deployments.DATABASE_SERVICE.secret";
+	
+	/** The Constant MASTER_MQ_SERVICE_NAME_KEY. */
 	private static final String MASTER_MQ_SERVICE_NAME_KEY = "master.deployments.MESSAGING_SERVICE.name";
 	
 	/** The Constant MASTER_MQ_SERVICE_PORT_KEY. */
@@ -132,6 +133,14 @@ public class BootstrapUtil {
 		return configData.get(MASTER_SYSTEM_DOMAIN_KEY);
 	}
 	
+	/**
+	 * Gets the fully qualified service name.
+	 *
+	 * @param service the service
+	 * @param configData the config data
+	 * @param serviceName the service name
+	 * @return the fully qualified service name
+	 */
 	public static String getFullyQualifiedServiceName(final Service service, final Map<String, String> configData, final String serviceName) {
 		final String systemNamespace = getSystemNamespace(configData);
 		final String serviceNamespace = service.getNamespace();
@@ -378,5 +387,21 @@ public class BootstrapUtil {
 	 */
 	public static Integer getSystemServiceRequestTimeout() {
 		return SYSTEM_REQUEST_TIMEOUT_SECONDS;
+	}
+
+	/**
+	 * Gets the system db secret.
+	 *
+	 * @param service the service
+	 * @param configData the config data
+	 * @return the system db secret
+	 */
+	public static String getSystemDbSecret(final Service service, final Map<String, String> configData) {
+		final String systemNamespace = getSystemNamespace(configData);
+		final String serviceNamespace = service.getNamespace();
+		if(systemNamespace.equals(serviceNamespace)) {
+			return configData.get(MASTER_DB_SERVICE_SECRET_KEY);
+		}
+		return null;
 	}
 }
