@@ -171,7 +171,8 @@ To spin development environment we need to install following tools on developmen
 | Service Gateway | 30080 | N/A |
 | Core Service | 30080 | http://192.168.57.150:30080/api/core-service/v1.0/services/1 | 
 | Core Service API Docs | 30080 | http://192.168.57.150:30080/api/core-service/swagger-ui.html | 
-All services are accessible through gateway. On deployment services will dynamically register themselves with Eureka which in turn will be discovered by Zuul gateway &amp; corresponding route will be created. 
+
+> All services are accessible through gateway. On deployment services will dynamically register themselves with Eureka which in turn will be discovered by Zuul gateway &amp; corresponding route will be created. 
 For service to be discoverable you MUST USE following application properties:
 ```sh
 eureka.instance.hostname=${MICROSERVICE_SERVICE_NAME}
