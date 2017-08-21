@@ -1,6 +1,13 @@
 spring:
   application:
     name: registry-service
+  
+info:
+    enabled: true
+    sensitive: false
+    app:
+      name: Registry Service
+      version: 0.0.1-SNAPSHOT
     
 server:
   port: 9161

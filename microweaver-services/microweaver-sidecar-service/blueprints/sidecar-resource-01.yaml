@@ -24,12 +24,12 @@ spec:
           httpGet:
             path: /health
             port: http-main          
-          initialDelaySeconds: 20
+          initialDelaySeconds: 40
         readinessProbe:
           httpGet:
             path: /health
             port: http-main
-          initialDelaySeconds: 20
+          initialDelaySeconds: 40
         ports:
         - name: http-main
           containerPort: 9178

@@ -21,12 +21,12 @@ spec:
           httpGet:
             path: /health
             port: 9161
-          initialDelaySeconds: 20
+          initialDelaySeconds: 40
         readinessProbe:
           httpGet:
             path: /health
             port: 9161
-          initialDelaySeconds: 20
+          initialDelaySeconds: 40
         ports:
         - containerPort: 9161
         imagePullPolicy: Always

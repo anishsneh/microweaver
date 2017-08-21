@@ -80,11 +80,21 @@ public class BootstrapUtil {
 	// System defaults
 	private static final Integer SYSTEM_REQUEST_TIMEOUT_SECONDS = -1;
 	
-	/** The Constant DEFAULT_DOMAIN. */
-	private static final String DEFAULT_DOMAIN = "cluster.local";
+	/** The Constant MASTER_SYSTEM_DOMAIN_KEY. */
+	private static final String MASTER_SYSTEM_DOMAIN_KEY = "master.domain";
 	
 	/** The Constant SERVICE_FQDN_TPL. */
 	private static final String SERVICE_FQDN_TPL = "%s.%s.svc.%s";
+	
+	private static final String MASTER_DB_SERVICE_NAME_KEY = "master.deployments.DATABASE_SERVICE.name";
+	
+	/** The Constant MASTER_DB_SERVICE_PORT_KEY. */
+	private static final String MASTER_DB_SERVICE_PORT_KEY = "master.configurations.system.DATABASE_MYSQL_SERVER_SERVER.port";
+	
+	private static final String MASTER_MQ_SERVICE_NAME_KEY = "master.deployments.MESSAGING_SERVICE.name";
+	
+	/** The Constant MASTER_MQ_SERVICE_PORT_KEY. */
+	private static final String MASTER_MQ_SERVICE_PORT_KEY = "master.configurations.system.MESSAGING_RABBIT_MQ_SERVER.port";
 	
 	/**
 	 * Gets the deployment key.
@@ -108,8 +118,74 @@ public class BootstrapUtil {
 	 * @param configData the config data
 	 * @return the deployment namespace
 	 */
-	public static String getDeploymentNamespace(final Map<String, String> configData) {
+	public static String getSystemNamespace(final Map<String, String> configData) {
 		return configData.get(MASTER_NAMESPACE_SYSTEM_KEY);
+	}
+	
+	/**
+	 * Gets the system domain.
+	 *
+	 * @param configData the config data
+	 * @return the system domain
+	 */
+	public static String getSystemDomain(final Map<String, String> configData) {
+		return configData.get(MASTER_SYSTEM_DOMAIN_KEY);
+	}
+	
+	public static String getFullyQualifiedServiceName(final Service service, final Map<String, String> configData, final String serviceName) {
+		final String systemNamespace = getSystemNamespace(configData);
+		final String serviceNamespace = service.getNamespace();
+		final String systemDomain = getSystemDomain(configData);
+		String serviceHostname = null;
+		if(systemNamespace.equals(serviceNamespace)) {
+			return serviceName;
+		}
+		else {
+			serviceHostname = String.format(SERVICE_FQDN_TPL, serviceName, systemNamespace, systemDomain);
+		}
+		return serviceHostname;
+	}
+	
+	/**
+	 * Gets the system db host.
+	 *
+	 * @param service the service
+	 * @param configData the config data
+	 * @return the system db host
+	 */
+	public static String getSystemDbHost(final Service service, final Map<String, String> configData) {
+		return getFullyQualifiedServiceName(service, configData, configData.get(MASTER_DB_SERVICE_NAME_KEY));
+	}
+	
+	/**
+	 * Gets the system db port.
+	 *
+	 * @param configData the config data
+	 * @return the system db port
+	 */
+	public static Integer getSystemDbPort(final Map<String, String> configData) {
+		return (null != configData.get(MASTER_DB_SERVICE_PORT_KEY)) ? Integer.parseInt(configData.get(MASTER_DB_SERVICE_PORT_KEY)) : null;
+	}
+	
+	/**
+	 * Gets the system mq host.
+	 *
+	 * @param service the service
+	 * @param configData the config data
+	 * @return the system mq host
+	 */
+	public static String getSystemMqHost(final Service service, final Map<String, String> configData) {
+		return getFullyQualifiedServiceName(service, configData, configData.get(MASTER_MQ_SERVICE_NAME_KEY));
+	}
+	
+	/**
+	 * Gets the system mq port.
+	 *
+	 * @param configData the config data
+	 * @return the system mq port
+	 */
+	public static Integer getSystemMqPort(final Map<String, String> configData) {
+		return (null != configData.get(MASTER_MQ_SERVICE_PORT_KEY)) ? Integer.parseInt(configData.get(MASTER_MQ_SERVICE_PORT_KEY)) : null;
 	}
 	
 	/**
@@ -130,47 +206,21 @@ public class BootstrapUtil {
 	 * @param configData the config data
 	 * @return the image registry url
 	 */
-	public static String getImageRegistryUrl(final Map<String, String> configData) {
+	public static String getSystemImageRegistryUrl(final Map<String, String> configData) {
 		final String host = configData.get(MASTER_IMAGE_REGISTRY_HOST_KEY);
 		final String port = configData.get(MASTER_IMAGE_REGISTRY_PORT_KEY);
-		return host + ":" + port;
+		return String.format("%s:%s", host, port);
 	}
 	
 	/**
 	 * Gets the service hostname.
 	 *
 	 * @param service the service
-	 * @param serviceName the service name
+	 * @param configData the config data
 	 * @return the service hostname
 	 */
-	public static String getServiceHostname(final Service service, final String serviceName) {
-		String serviceHostname = null;
-		if(CommonUtil.SERVICE_TYPE_SYSTEM.equals(service.getServiceType())) {
-			return serviceName;
-		}
-		else {
-			serviceHostname = String.format(SERVICE_FQDN_TPL, serviceName, service.getNamespace(), DEFAULT_DOMAIN);
-		}
-		return serviceHostname;
-	}
-	
-	/**
-	 * Gets the service registry hostname.
-	 *
-	 * @param service the service
-	 * @param serviceName the service name
-	 * @param systemNamespace the system namespace
-	 * @return the service registry hostname
-	 */
-	public static String getServiceRegistryHostname(final Service service, final String serviceName, final String systemNamespace) {
-		String serviceHostname = null;
-		if(CommonUtil.SERVICE_TYPE_SYSTEM.equals(service.getServiceType())) {
-			return serviceName;
-		}
-		else {
-			serviceHostname = String.format(SERVICE_FQDN_TPL, serviceName, systemNamespace, DEFAULT_DOMAIN);
-		}
-		return serviceHostname;
+	public static String getServiceHostname(final Service service, final Map<String, String> configData) {
+		return getFullyQualifiedServiceName(service, configData, service.getName());
 	}
 	
 	/**
@@ -181,8 +231,7 @@ public class BootstrapUtil {
 	 * @return the registry service 01 name
 	 */
 	public static String getRegistryService01Name(final Service service, final Map<String, String> configData) {
-		final String key = String.format(MASTER_REGISTRY_SERVICE_01_NAME_KEY);
-		return getServiceRegistryHostname(service, configData.get(key), getDeploymentNamespace(configData));
+		return getFullyQualifiedServiceName(service, configData, MASTER_REGISTRY_SERVICE_01_NAME_KEY);
 	}
 	
 	/**
@@ -193,8 +242,7 @@ public class BootstrapUtil {
 	 * @return the registry service 02 name
 	 */
 	public static String getRegistryService02Name(final Service service, final Map<String, String> configData) {
-		final String key = String.format(MASTER_REGISTRY_SERVICE_02_NAME_KEY);
-		return getServiceRegistryHostname(service, configData.get(key), getDeploymentNamespace(configData));
+		return getFullyQualifiedServiceName(service, configData, MASTER_REGISTRY_SERVICE_02_NAME_KEY);
 	}
 	
 	/**
@@ -324,11 +372,11 @@ public class BootstrapUtil {
 	}
 
 	/**
-	 * Gets the bootstrap request timeout.
+	 * Gets the system service request timeout.
 	 *
-	 * @return the bootstrap request timeout
+	 * @return the system service request timeout
 	 */
-	public static Integer getBootstrapRequestTimeout() {
+	public static Integer getSystemServiceRequestTimeout() {
 		return SYSTEM_REQUEST_TIMEOUT_SECONDS;
 	}
 }

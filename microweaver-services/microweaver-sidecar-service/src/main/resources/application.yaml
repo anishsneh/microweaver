@@ -6,8 +6,8 @@ info:
     enabled: true
     sensitive: false
     app:
-      name: Hello Sidecar
-      version: 1.0.0
+      name: Sidecar Service
+      version: 0.0.1-SNAPSHOT
  
 management:
   security:

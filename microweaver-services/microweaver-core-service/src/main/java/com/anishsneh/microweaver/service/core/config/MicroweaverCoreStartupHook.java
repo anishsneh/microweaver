@@ -70,10 +70,10 @@ public class MicroweaverCoreStartupHook {
 				serviceEntity.setImageName(BootstrapUtil.getDeploymentImageName(configData, deploymentId));
 				serviceEntity.setImageTag(BootstrapUtil.getDeploymentImageTag(configData, deploymentId));
 				serviceEntity.setName(BootstrapUtil.getDeploymentName(configData, deploymentId));
-				serviceEntity.setNamespace(BootstrapUtil.getDeploymentNamespace(configData));
-				serviceEntity.setRegistryUrl(BootstrapUtil.getImageRegistryUrl(configData));
+				serviceEntity.setNamespace(BootstrapUtil.getSystemNamespace(configData));
+				serviceEntity.setRegistryUrl(BootstrapUtil.getSystemImageRegistryUrl(configData));
 				serviceEntity.setReplicas(BootstrapUtil.getDeploymentReplicas(configData, deploymentId));
-				serviceEntity.setRequestTimeoutSeconds(BootstrapUtil.getBootstrapRequestTimeout());
+				serviceEntity.setRequestTimeoutSeconds(BootstrapUtil.getSystemServiceRequestTimeout());
 				serviceEntity.setServicePort(BootstrapUtil.getDeploymentPort(configData, deploymentId));
 				serviceEntity.setServiceType(BootstrapUtil.getDeploymentType(configData, deploymentId));
 				serviceEntity.setSidecarPort(BootstrapUtil.getDeploymentSidecarPort(configData, deploymentId));

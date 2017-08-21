@@ -2,7 +2,7 @@ spring:
   application:
     name: core-service
   datasource:
-    url: jdbc:mysql://microweaver-core-database:3306/microweaver
+    url: jdbc:mysql://${SYSTEM_DB_HOST}:3306/microweaver
     username: root
     password: topsecret
     testWhileIdle: true
@@ -24,8 +24,8 @@ info:
     enabled: true
     sensitive: false
     app:
-      name: Hello World
-      version: 1.0.0
+      name: Core Service
+      version: 0.0.1-SNAPSHOT
         
 endpoints:
   enabled: true

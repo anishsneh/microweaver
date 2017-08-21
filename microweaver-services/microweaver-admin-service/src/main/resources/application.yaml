@@ -2,6 +2,13 @@ spring:
   application:
     name: admin-service
     
+info:
+    enabled: true
+    sensitive: false
+    app:
+      name: Admin Service
+      version: 0.0.1-SNAPSHOT
+    
 server:
   port: 9190
   

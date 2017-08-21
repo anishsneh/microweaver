@@ -186,6 +186,8 @@ def _create_deployment(master_conf, deployment, ro):
                     deployments_defs = master_conf.get("master").get("deployments")
                     registry_01 = deployments_defs.get("REGISTRY_SERVICE_01")
                     registry_02 = deployments_defs.get("REGISTRY_SERVICE_02")
+                    db_service = deployments_defs.get("DATABASE_SERVICE")
+                    mq_service = deployments_defs.get("MESSAGING_SERVICE")
                     environment_vars = [
                         {
                             "name" : "MICROSERVICE_SERVICE_NAME",
@@ -198,6 +200,14 @@ def _create_deployment(master_conf, deployment, ro):
                         {
                             "name" : "EUREKA_SERVICE_NAME_02",
                             "value" : registry_02.get("name")
+                        },
+                        {
+                            "name" : "SYSTEM_DB_HOST",
+                            "value" : db_service.get("name")
+                        },
+                        {
+                            "name" : "SYSTEM_MQ_HOST",
+                            "value" : mq_service.get("name")
                         }
                     ]
                     tplspec["containers"][container_index]["env"] = environment_vars

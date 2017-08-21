@@ -2,6 +2,13 @@ spring:
   application:
     name: gateway-service
     
+info:
+    enabled: true
+    sensitive: false
+    app:
+      name: Gateway Service
+      version: 0.0.1-SNAPSHOT
+    
 server:
   port: 9165
   
@@ -12,6 +19,8 @@ management:
 ribbon:
   eureka:
     enabled: true
+  ConnectTimeout: 3000
+  ReadTimeout: 60000
 
 hystrix:
   command:
@@ -19,6 +28,10 @@ hystrix:
       execution:
         timeout:
           enabled: false
+        isolation:
+          strategy: THREAD
+          thread:
+            timeoutInMilliseconds: 60000
           
 eureka:
   instance:
