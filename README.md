@@ -158,11 +158,11 @@ To spin development environment we need to install following tools on developmen
 	microweaver-sidecar-service-218452119-5fsl5        1/1       Running   0          2m
     ```
 10. From local browser navigate to http://192.168.57.150:8080/ui &amp; check Kubernetes dashboard, you should see microweaver platform pods deployed:
-IMAGE1
+![Kubernetes Dashboard | http://www.anishsneh.com](https://user-images.githubusercontent.com/5123162/29532785-bc6cb8b2-86a6-11e7-8b7d-ddd50007860d.png)
 11. From local browser navigate to http://192.168.57.150:30090 &amp; check Spring Boot Admin console, you should see microweaver platform services deployed:
-IMAGE2
+![Admin Service | http://www.anishsneh.com](https://user-images.githubusercontent.com/5123162/29532796-c766d964-86a6-11e7-8bcf-9603f9c3811b.png)
 12. From local browser navigate to http://192.168.57.150:30080/api/core-service/swagger-ui.html &amp; check docs, you should see API docs:
-IMAGE3
+![API Docs | http://www.anishsneh.com](https://user-images.githubusercontent.com/5123162/29532799-ca1fae1a-86a6-11e7-8b9a-21a475798122.png)
 ### Information
 | Service/Component Name | Port | URL
 | ------ | ------ | ------ |
