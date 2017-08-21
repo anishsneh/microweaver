@@ -2,7 +2,7 @@
 
 See:
 https://packaging.python.org/en/latest/distributing.html
-https://github.com/anishsneh/learnings
+https://github.com/anishsneh/microweaver
 """
 
 # Always prefer setuptools over distutils
@@ -29,11 +29,11 @@ setup(
     long_description=long_description,
 
     # The project's main homepage.
-    url='https://github.com/anishsneh/learnings',
+    url='https://github.com/anishsneh/microweaver',
 
     # Author details
     author='The Python Packaging Authority',
-    author_email='anishsneh@gmail.com',
+    author_email='anishsneh@anishsneh.com',
 
     # Choose your license
     license='MIT',
