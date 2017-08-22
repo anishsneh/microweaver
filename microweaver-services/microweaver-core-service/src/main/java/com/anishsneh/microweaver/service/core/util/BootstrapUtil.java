@@ -72,10 +72,6 @@ public class BootstrapUtil {
 	/** The Constant MASTER_REGISTRY_SERVICE_02_NAME_KEY. */
 	private static final String MASTER_REGISTRY_SERVICE_02_NAME_KEY = "master.deployments.REGISTRY_SERVICE_02.name";
 	
-	/** The Constant SYSTEM_REQUEST_TIMEOUT_SECONDS. */
-	// System defaults
-	private static final Integer SYSTEM_REQUEST_TIMEOUT_SECONDS = -1;
-	
 	/** The Constant MASTER_SYSTEM_DOMAIN_KEY. */
 	private static final String MASTER_SYSTEM_DOMAIN_KEY = "master.domain";
 	
@@ -378,15 +374,6 @@ public class BootstrapUtil {
 			return configData;
 		}
 		return null;
-	}
-
-	/**
-	 * Gets the system service request timeout.
-	 *
-	 * @return the system service request timeout
-	 */
-	public static Integer getSystemServiceRequestTimeout() {
-		return SYSTEM_REQUEST_TIMEOUT_SECONDS;
 	}
 
 	/**

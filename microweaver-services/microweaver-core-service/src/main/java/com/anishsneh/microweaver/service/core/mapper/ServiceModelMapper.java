@@ -96,7 +96,6 @@ public class ServiceModelMapper {
 				when(Conditions.isNotNull()).map().setSidecarPort(source.getSidecarPort());
 				when(Conditions.isNotNull()).map().setReplicas(source.getReplicas());
 				when(Conditions.isNotNull()).map().setIdx(source.getIdx());
-				when(Conditions.isNotNull()).map().setRequestTimeoutSeconds(source.getRequestTimeoutSeconds());
 				skip().setId(null);
 				skip().setName(null);
 				skip().setNamespace(null);

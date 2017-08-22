@@ -39,10 +39,6 @@ public class ServiceEntity implements Serializable{
 	@Column
 	private Integer replicas;
 	
-	/** The request timeout seconds. */
-	@Column
-	private Integer requestTimeoutSeconds;
-	
 	/** The image name. */
 	@Column(nullable = false)
 	private String imageName;
@@ -197,24 +193,6 @@ public class ServiceEntity implements Serializable{
 	 */
 	public void setReplicas(final Integer replicas) {
 		this.replicas = replicas;
-	}
-
-	/**
-	 * Gets the request timeout seconds.
-	 *
-	 * @return the request timeout seconds
-	 */
-	public Integer getRequestTimeoutSeconds() {
-		return requestTimeoutSeconds;
-	}
-
-	/**
-	 * Sets the request timeout seconds.
-	 *
-	 * @param requestTimeoutSeconds the new request timeout seconds
-	 */
-	public void setRequestTimeoutSeconds(final Integer requestTimeoutSeconds) {
-		this.requestTimeoutSeconds = requestTimeoutSeconds;
 	}
 
 	/**
@@ -401,8 +379,7 @@ public class ServiceEntity implements Serializable{
 	 */
 	@Override
 	public String toString() {
-		return "ServiceEntity [id=" + id + ", name=" + name + ", replicas=" + replicas + ", requestTimeoutSeconds="
-				+ requestTimeoutSeconds + ", imageName=" + imageName + ", imageTag=" + imageTag + ", registryUrl="
+		return "ServiceEntity [id=" + id + ", name=" + name + ", replicas=" + replicas + ", imageName=" + imageName + ", imageTag=" + imageTag + ", registryUrl="
 				+ registryUrl + ", namespace=" + namespace + ", servicePort=" + servicePort + ", sidecarPort="
 				+ sidecarPort + ", serviceType=" + serviceType + ", idx=" + idx + ", active=" + active
 				+ ", description=" + description + ", createdOn=" + createdOn + ", modifiedOn=" + modifiedOn + "]";

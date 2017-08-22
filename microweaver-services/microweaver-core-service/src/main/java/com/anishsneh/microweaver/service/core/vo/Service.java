@@ -44,9 +44,6 @@ public class Service {
 	/** The replicas. */
 	private Integer replicas;
 	
-	/** The request timeout seconds. */
-	private Integer requestTimeoutSeconds;
-	
 	/** The image name. */
 	private String imageName;
 	
@@ -164,27 +161,6 @@ public class Service {
 		this.replicas = replicas;
 	}
 	
-	/**
-	 * Gets the request timeout seconds.
-	 *
-	 * @return the request timeout seconds
-	 */
-	@ApiModelProperty(position = 5, required = false, value = "Service request timeout in seconds", example = "2")
-	@NotNull(message = "Valid service request timeout is required", groups = { CreateGroup.class })
-	@Min(value = 0, message = "A valid service request timeout must be a positive integer", groups = { CreateGroup.class, UpdateGroup.class })
-	public Integer getRequestTimeoutSeconds() {
-		return requestTimeoutSeconds;
-	}
-
-	/**
-	 * Sets the request timeout seconds.
-	 *
-	 * @param requestTimeoutSeconds the new request timeout seconds
-	 */
-	public void setRequestTimeoutSeconds(final Integer requestTimeoutSeconds) {
-		this.requestTimeoutSeconds = requestTimeoutSeconds;
-	}
-
 	/**
 	 * Gets the image name.
 	 *
@@ -419,7 +395,7 @@ public class Service {
 	@Override
 	public String toString() {
 		return "Service [id=" + id + ", name=" + name + ", active=" + active + ", idx=" + idx + ", replicas=" + replicas
-				+ ", requestTimeoutSeconds=" + requestTimeoutSeconds + ", imageName=" + imageName + ", imageTag="
+				+ ", imageName=" + imageName + ", imageTag="
 				+ imageTag + ", registryUrl=" + registryUrl + ", namespace=" + namespace + ", servicePort="
 				+ servicePort + ", sidecarPort=" + sidecarPort + ", serviceType=" + serviceType + ", createdOn="
 				+ createdOn + ", modifiedOn=" + modifiedOn + ", description=" + description + "]";
