@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: helloworld-service
+    
+info:
+    enabled: true
+    sensitive: false
+    app:
+      name: Hello World
+      version: 1.0.0
+        
+endpoints:
+  enabled: true
+   
+server:
+  port: 8180
+  servletPath: /
+ 
+management:
+  security:
+    enabled: false
+    
+springfox:
+  documentation:
+    swagger:
+      v2:
+        path: /swagger.json

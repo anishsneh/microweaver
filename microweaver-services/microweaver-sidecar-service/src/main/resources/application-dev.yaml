@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: sidecar-service
+    
+info:
+    enabled: true
+    sensitive: false
+    app:
+      name: Sidecar Service
+      version: 0.0.1-SNAPSHOT
+ 
+management:
+  security:
+    enabled: false
+        
+endpoints:
+  enabled: true
+   
+server:
+  port: 9178
+  
+eureka:
+  instance:
+    hostname: ${MICROSERVICE_SERVICE_NAME}
+    preferIpAddress: false
+    leaseRenewalIntervalInSeconds: 5
+    leaseExpirationDurationInSeconds: 5
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://${EUREKA_SERVICE_NAME_01}:9161/eureka/,http://${EUREKA_SERVICE_NAME_02}:9161/eureka/
+    healthcheck:
+      enabled: true
+      
+sidecar:
+  port: 7000
+  health-uri: http://localhost:${sidecar.port}/health
+  
+application:
+  system:
+    name: Hello World

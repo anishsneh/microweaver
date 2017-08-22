@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: core-service
+  datasource:
+    url: jdbc:h2:mem:microweaver;DB_CLOSE_ON_EXIT=FALSE
+    driverClassName: org.h2.Driver
+    username: sa
+    password: 
+    testWhileIdle: true
+    validationQuery: SELECT 1 
+    tomcat:
+      max-active: 50
+      max-idle: 20
+      max-wait: 20000
+      min-idle: 15
+  jpa:
+    show-sql: true
+    hibernate:
+      dialect: org.hibernate.dialect.H2Dialect
+      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+      ddl-auto: update      
+      format_sql: true
+      
+info:
+    enabled: true
+    sensitive: false
+    app:
+      name: Core Service
+      version: 0.0.1-SNAPSHOT
+        
+endpoints:
+  enabled: true
+   
+server:
+  port: 9180
+  servletPath: /
+ 
+management:
+  security:
+    enabled: false
+    
+springfox:
+  documentation:
+    swagger:
+      v2:
+        path: /swagger.json
