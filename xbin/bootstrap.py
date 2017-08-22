@@ -12,7 +12,7 @@ _MICROWEAVER_HOME = os.getenv("MICROWEAVER_HOME")
 
 _master_conf_path_tpl = "{}/xconf/master.yaml"
 
-_check_status = False
+_check_status = True
 _min_replicas = 1
 _max_attempts = 20
 _attempt_wait = 5
@@ -233,8 +233,6 @@ def _create_deployment(master_conf, deployment, ro):
 # TODO Change to use Jinja2 templates
 def _create_service(master_conf, deployment, ro):
     system_conf = master_conf.get("master").get("configurations").get("system").values()
-    registry_host = _get_configuration(system_conf, "CONTAINER", "DOCKER_ENGINE", "REGISTRY", "host")
-    registry_port = _get_configuration(system_conf, "CONTAINER", "DOCKER_ENGINE", "REGISTRY", "port")
     port_index = 0
     container_index = 0
     system_namespace = master_conf.get("master").get("namespace").get("system")
@@ -262,13 +260,11 @@ def _create_endpoints(master_conf, deployment, resource_object):
     subset_index = 0
     port_index = 0
     address_index = 0
-    db_host = _get_configuration(system_conf, "DATABASE", "MYSQL_SERVER", "SERVER", "host")
-    db_port = _get_configuration(system_conf, "DATABASE", "MYSQL_SERVER", "SERVER", "port")
     system_namespace = master_conf.get("master").get("namespace").get("system")
     resource_object["metadata"]["name"] = deployment.get("name")
     resource_object["metadata"]["namespace"] = system_namespace
-    resource_object["subsets"][subset_index]["addresses"][address_index]["ip"] = db_host
-    resource_object["subsets"][subset_index]["ports"][port_index]["port"] = db_port
+    resource_object["subsets"][subset_index]["addresses"][address_index]["ip"] = deployment.get("externalHost")
+    resource_object["subsets"][subset_index]["ports"][port_index]["port"] = deployment.get("port")
     _pretty_print_json(resource_object, "Service definition")
     client = _get_client(system_conf, "V1")
     try:
@@ -337,24 +333,6 @@ def main():
     
     system_conf = master_conf.get("master").get("configurations").get("system").values()
     _pretty_print_json(system_conf, "SYSTEM CONFIGURATION")
-    
-    db_host = _get_configuration(system_conf, "DATABASE", "MYSQL_SERVER", "SERVER", "host")
-    db_port = _get_configuration(system_conf, "DATABASE", "MYSQL_SERVER", "SERVER", "port")
-    
-    mq_host = _get_configuration(system_conf, "MESSAGING", "RABBIT_MQ", "SERVER", "host")
-    mq_port = _get_configuration(system_conf, "MESSAGING", "RABBIT_MQ", "SERVER", "port")
-    
-    registry_host = _get_configuration(system_conf, "CONTAINER", "DOCKER_ENGINE", "REGISTRY", "host")
-    registry_port = _get_configuration(system_conf, "CONTAINER", "DOCKER_ENGINE", "REGISTRY", "port")
-    
-    manager_api_host = _get_configuration(system_conf, "CONTAINER", "KUBERNETES", "API_SERVER", "host")
-    manager_api_port = _get_configuration(system_conf, "CONTAINER", "KUBERNETES", "API_SERVER", "port")
-    manager_api_scheme = _get_configuration(system_conf, "CONTAINER", "KUBERNETES", "API_SERVER", "scheme")
-    
-    log("----- Database server [{h}:{p}]".format(h = db_host, p = db_port))
-    log("----- Messaging server [{h}:{p}]".format(h = mq_host, p = mq_port))
-    log("----- Registry server [{h}:{p}]".format(h = registry_host, p = registry_port))
-    log("----- Container Manager API server [{s}://{h}:{p}]".format(s = manager_api_scheme, h = manager_api_host, p = manager_api_port))
     
     _create_deployments(master_conf)
     

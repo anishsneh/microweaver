@@ -61,10 +61,10 @@ public class BootstrapUtil {
 	private static final String MASTER_NAMESPACE_SYSTEM_KEY = "master.namespace.system";
 	
 	/** The Constant MASTER_IMAGE_REGISTRY_HOST_KEY. */
-	private static final String MASTER_IMAGE_REGISTRY_HOST_KEY = "master.configurations.system.CONTAINER_DOCKER_ENGINE_REGISTRY.host";
+	private static final String MASTER_IMAGE_REGISTRY_HOST_KEY = "master.configurations.system.DOCKER_ENGINE_REGISTRY.host";
 	
 	/** The Constant MASTER_IMAGE_REGISTRY_PORT_KEY. */
-	private static final String MASTER_IMAGE_REGISTRY_PORT_KEY = "master.configurations.system.CONTAINER_DOCKER_ENGINE_REGISTRY.port";
+	private static final String MASTER_IMAGE_REGISTRY_PORT_KEY = "master.configurations.system.DOCKER_ENGINE_REGISTRY.port";
 	
 	/** The Constant MASTER_REGISTRY_SERVICE_01_NAME_KEY. */
 	private static final String MASTER_REGISTRY_SERVICE_01_NAME_KEY = "master.deployments.REGISTRY_SERVICE_01.name";
@@ -82,7 +82,7 @@ public class BootstrapUtil {
 	private static final String MASTER_DB_SERVICE_NAME_KEY = "master.deployments.DATABASE_SERVICE.name";
 	
 	/** The Constant MASTER_DB_SERVICE_PORT_KEY. */
-	private static final String MASTER_DB_SERVICE_PORT_KEY = "master.configurations.system.DATABASE_MYSQL_SERVER_SERVER.port";
+	private static final String MASTER_DB_SERVICE_PORT_KEY = "master.deployments.DATABASE_SERVICE.port";
 	
 	/** The Constant MASTER_DB_SERVICE_SECRET_KEY. */
 	private static final String MASTER_DB_SERVICE_SECRET_KEY = "master.deployments.DATABASE_SERVICE.secret";
@@ -91,7 +91,7 @@ public class BootstrapUtil {
 	private static final String MASTER_MQ_SERVICE_NAME_KEY = "master.deployments.MESSAGING_SERVICE.name";
 	
 	/** The Constant MASTER_MQ_SERVICE_PORT_KEY. */
-	private static final String MASTER_MQ_SERVICE_PORT_KEY = "master.configurations.system.MESSAGING_RABBIT_MQ_SERVER.port";
+	private static final String MASTER_MQ_SERVICE_PORT_KEY = "master.deployments.MESSAGING_SERVICE.port";
 	
 	/**
 	 * Gets the deployment key.

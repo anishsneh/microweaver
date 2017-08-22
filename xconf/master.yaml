@@ -5,40 +5,29 @@ master:
     system: microweaver-system
   configurations:
     system:
-      CONTAINER_KUBERNETES_API_SERVER:
+      KUBERNETES_API_SERVER:
         category: CONTAINER
         provider: KUBERNETES
         component: API_SERVER
         host: 192.168.57.150
         port: 8080
         scheme: http
-      MESSAGING_RABBIT_MQ_SERVER:
-        category: MESSAGING
-        provider: RABBIT_MQ
-        component: SERVER
-        host: 192.168.57.150
-        port: 5672
-      CONTAINER_DOCKER_ENGINE_REGISTRY:
+      DOCKER_ENGINE_REGISTRY:
         category: CONTAINER
         provider: DOCKER_ENGINE
         component: REGISTRY
         host: 192.168.57.150
         port: 5000
-      DATABASE_MYSQL_SERVER_SERVER:
-        category: DATABASE
-        provider: MYSQL_SERVER
-        host: 192.168.57.150
-        component: SERVER
-        port: 3306
-        user: root
-        secret: topsecret
-        schema: microweaver
+        scheme: http
   deployments:
     DATABASE_SERVICE:
       name: microweaver-core-database
       directory: microweaver-core-database
       category: microweaver-databases
       key: mysql
+      externalHost: 192.168.57.150
+      port: 3306
+      user: root
       secret: topsecret
       type: SYSTEM
       bootstrap: true
@@ -48,6 +37,9 @@ master:
       directory: microweaver-core-messaging
       category: microweaver-messaging
       key: rabbitmq
+      externalHost: 192.168.57.150
+      port: 5672
+      user: root
       secret: topsecret
       type: SYSTEM
       bootstrap: true
