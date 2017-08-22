@@ -66,6 +66,10 @@
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
 		</dependency>
+		<dependency>
+               <groupId>com.h2database</groupId>
+               <artifactId>h2</artifactId>
+        </dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
@@ -91,6 +95,13 @@
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+				<argLine>-Dspring.profiles.active=${spring.profiles.active}</argLine>
 				</configuration>
 			</plugin>
 			<!-- Disable default deploy plugin unless target maven repository is configured -->

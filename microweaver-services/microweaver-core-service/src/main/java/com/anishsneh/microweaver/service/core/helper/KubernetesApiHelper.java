@@ -5,8 +5,10 @@ import java.nio.file.Paths;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.anishsneh.microweaver.service.core.config.ApplicationProperties;
 import com.anishsneh.microweaver.service.core.util.ApiContants;
 
 import io.fabric8.kubernetes.client.DefaultKubernetesClient;
@@ -24,6 +26,9 @@ public class KubernetesApiHelper {
 	/** The Constant logger. */
 	private static final Logger logger = LoggerFactory.getLogger(KubernetesApiHelper.class);
 
+	@Autowired
+	private ApplicationProperties applicationProperties;
+	
 	/**
 	 * Gets the client.
 	 *
@@ -34,10 +39,10 @@ public class KubernetesApiHelper {
 		KubernetesClient kClient = null;
 		String connUrl = null;
 		if(null == url) {
-			connUrl = ApiContants.SYSTEM_POD_INTERNAL_API_URL;
+			connUrl = applicationProperties.getKubernetesUrl();
 			kClient = new DefaultKubernetesClient(connUrl);
 			try {
-				final String token = new String(Files.readAllBytes(Paths.get(ApiContants.SYSTEM_POD_INTERNAL_OAUTH_TOKEN_FILE)));
+				final String token = new String(Files.readAllBytes(Paths.get(applicationProperties.getKubernetesAuthTokenPath())));
 				kClient.getConfiguration().setOauthToken(token);
 			} 
 			catch (final Exception e) {

@@ -38,9 +38,23 @@ server:
 management:
   security:
     enabled: false
+   
+eureka:
+    instance:
+      hostname: localhost
+    client:
+      registerWithEureka: false
+      fetchRegistry: false
     
 springfox:
   documentation:
     swagger:
       v2:
         path: /swagger.json
+        
+application:
+  system:
+    loadBootstrapServicesToDb: false
+  kubernetes:
+    url: https://kubernetes.default:443
+    authTokenPath: /var/run/secrets/kubernetes.io/serviceaccount/token

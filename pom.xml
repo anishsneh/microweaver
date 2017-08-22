@@ -20,8 +20,8 @@
 		<spring-cloud.version>Dalston.SR1</spring-cloud.version>
 		<docker.image.prefix>microweaver</docker.image.prefix>
 		<docker.registry.url>192.168.57.150:5000</docker.registry.url>
-		<!-- Skipping test for now -->
-		<maven.test.skip>true</maven.test.skip>
+		<maven.test.skip>false</maven.test.skip>
+		<spring.profiles.active>dev</spring.profiles.active>
 	</properties>
 	<modules>
 		<module>microweaver-platform</module>
@@ -32,6 +32,10 @@
 	<profiles>
 		<profile>
 			<id>docker</id>
+			<properties>
+	        		<maven.test.skip>true</maven.test.skip>
+	        		<spring.profiles.active>default</spring.profiles.active>
+	      	</properties>
 		</profile>
 	</profiles>
 	<build>

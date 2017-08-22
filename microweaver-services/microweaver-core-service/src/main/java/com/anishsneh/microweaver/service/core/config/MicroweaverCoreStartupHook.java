@@ -38,14 +38,21 @@ public class MicroweaverCoreStartupHook {
 	/** The kubernetes api helper. */
 	@Autowired
 	private KubernetesApiHelper kubernetesApiHelper;
+	
+	/** The application properties. */
+	@Autowired
+	private ApplicationProperties applicationProperties; 
 
 	/**
 	 * On context refresh.
 	 */
 	@EventListener({ ContextRefreshedEvent.class })
 	public void onContextRefresh() {
-		logger.info("Context refreshed");
-		loadBootstrapServiceToServiceDb();
+		final boolean loadBootStrapServices = applicationProperties.isSystemLoadBootstrapServicesToDb();
+		logger.info("Context refreshed, flag loadBootstrapServiceToServiceDb [{}]", loadBootStrapServices);
+		if(loadBootStrapServices) {
+			loadBootstrapServiceToServiceDb();
+		}
 	}
 
 	/**

@@ -20,18 +20,11 @@ server:
   port: 9178
   
 eureka:
-  instance:
-    hostname: ${MICROSERVICE_SERVICE_NAME}
-    preferIpAddress: false
-    leaseRenewalIntervalInSeconds: 5
-    leaseExpirationDurationInSeconds: 5
-  client:
-    registerWithEureka: true
-    fetchRegistry: true
-    serviceUrl:
-      defaultZone: http://${EUREKA_SERVICE_NAME_01}:9161/eureka/,http://${EUREKA_SERVICE_NAME_02}:9161/eureka/
-    healthcheck:
-      enabled: true
+    instance:
+      hostname: localhost
+    client:
+      registerWithEureka: false
+      fetchRegistry: false
       
 sidecar:
   port: 7000

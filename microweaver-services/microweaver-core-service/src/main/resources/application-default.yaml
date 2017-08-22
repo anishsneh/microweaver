@@ -57,3 +57,10 @@ springfox:
     swagger:
       v2:
         path: /swagger.json
+        
+application:
+  system:
+    loadBootstrapServicesToDb: true
+  kubernetes:
+    url: https://kubernetes.default:443
+    authTokenPath: /var/run/secrets/kubernetes.io/serviceaccount/token

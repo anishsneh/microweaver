@@ -17,13 +17,8 @@ management:
     enabled: false
 
 eureka:
-  instance:
-    hostname: ${MICROSERVICE_SERVICE_NAME}
-    preferIpAddress: false
-  client:
-    registerWithEureka: true
-    fetchRegistry: false
-    service-url:
-      defaultZone: http://${EUREKA_SERVICE_NAME_01}:9161/eureka/,http://${EUREKA_SERVICE_NAME_02}:9161/eureka/
-  server:
-    enableSelfPreservation: false
+    instance:
+      hostname: localhost
+    client:
+      registerWithEureka: false
+      fetchRegistry: false

@@ -18,7 +18,7 @@ management:
 
 ribbon:
   eureka:
-    enabled: true
+    enabled: false
   ConnectTimeout: 3000
   ReadTimeout: 60000
 
@@ -34,17 +34,11 @@ hystrix:
             timeoutInMilliseconds: 60000
           
 eureka:
-  instance:
-    hostname: ${MICROSERVICE_SERVICE_NAME}
-    leaseRenewalIntervalInSeconds: 1
-    leaseExpirationDurationInSeconds: 2
-  client:
-    registerWithEureka: true
-    fetchRegistry: true
-    serviceUrl:
-      defaultZone: http://${EUREKA_SERVICE_NAME_01}:9161/eureka/,http://${EUREKA_SERVICE_NAME_02}:9161/eureka/
-    healthcheck:
-      enabled: true
+    instance:
+      hostname: localhost
+    client:
+      registerWithEureka: false
+      fetchRegistry: false
       
 zuul:
   prefix: /api

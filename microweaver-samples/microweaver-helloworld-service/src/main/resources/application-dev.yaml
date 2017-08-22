@@ -20,6 +20,13 @@ management:
   security:
     enabled: false
     
+eureka:
+    instance:
+      hostname: localhost
+    client:
+      registerWithEureka: false
+      fetchRegistry: false
+    
 springfox:
   documentation:
     swagger:
