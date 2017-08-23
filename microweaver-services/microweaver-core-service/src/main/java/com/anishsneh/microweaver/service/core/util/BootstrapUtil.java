@@ -137,16 +137,24 @@ public class BootstrapUtil {
 	 * @param serviceName the service name
 	 * @return the fully qualified service name
 	 */
-	public static String getFullyQualifiedServiceName(final Service service, final Map<String, String> configData, final String serviceName) {
+	public static String getFullyQualifiedServiceName(final Service serviceUnderDeployment, final Map<String, String> configData, final String serviceName, final boolean systemService) {
 		final String systemNamespace = getSystemNamespace(configData);
-		final String serviceNamespace = service.getNamespace();
+		final String serviceNamespace = serviceUnderDeployment.getNamespace();
 		final String systemDomain = getSystemDomain(configData);
 		String serviceHostname = null;
-		if(systemNamespace.equals(serviceNamespace)) {
+		final boolean inSystemNamespace = systemNamespace.equals(serviceNamespace);
+		if(inSystemNamespace) {
 			return serviceName;
 		}
 		else {
-			serviceHostname = String.format(SERVICE_FQDN_TPL, serviceName, systemNamespace, systemDomain);
+			String namespace = null;
+			if(systemService) {
+				namespace = systemNamespace;
+			}
+			else {
+				namespace = serviceNamespace;
+			}
+			serviceHostname = String.format(SERVICE_FQDN_TPL, serviceName, namespace, systemDomain);
 		}
 		logger.info("Got fully qualified service hostname [{}] for service namespace [{}], system namespace [{}]", serviceHostname, serviceNamespace, systemNamespace);
 		return serviceHostname;
@@ -160,7 +168,7 @@ public class BootstrapUtil {
 	 * @return the system db host
 	 */
 	public static String getSystemDbHost(final Service service, final Map<String, String> configData) {
-		return getFullyQualifiedServiceName(service, configData, configData.get(MASTER_DB_SERVICE_NAME_KEY));
+		return getFullyQualifiedServiceName(service, configData, configData.get(MASTER_DB_SERVICE_NAME_KEY), true);
 	}
 	
 	/**
@@ -181,7 +189,7 @@ public class BootstrapUtil {
 	 * @return the system mq host
 	 */
 	public static String getSystemMqHost(final Service service, final Map<String, String> configData) {
-		return getFullyQualifiedServiceName(service, configData, configData.get(MASTER_MQ_SERVICE_NAME_KEY));
+		return getFullyQualifiedServiceName(service, configData, configData.get(MASTER_MQ_SERVICE_NAME_KEY), true);
 	}
 	
 	/**
@@ -226,7 +234,7 @@ public class BootstrapUtil {
 	 * @return the service hostname
 	 */
 	public static String getServiceHostname(final Service service, final Map<String, String> configData) {
-		return getFullyQualifiedServiceName(service, configData, service.getName());
+		return getFullyQualifiedServiceName(service, configData, service.getName(), false);
 	}
 	
 	/**
@@ -237,7 +245,7 @@ public class BootstrapUtil {
 	 * @return the registry service 01 name
 	 */
 	public static String getRegistryService01Name(final Service service, final Map<String, String> configData) {
-		return getFullyQualifiedServiceName(service, configData, configData.get(MASTER_REGISTRY_SERVICE_01_NAME_KEY));
+		return getFullyQualifiedServiceName(service, configData, configData.get(MASTER_REGISTRY_SERVICE_01_NAME_KEY), true);
 	}
 	
 	/**
@@ -248,7 +256,7 @@ public class BootstrapUtil {
 	 * @return the registry service 02 name
 	 */
 	public static String getRegistryService02Name(final Service service, final Map<String, String> configData) {
-		return getFullyQualifiedServiceName(service, configData, configData.get(MASTER_REGISTRY_SERVICE_02_NAME_KEY));
+		return getFullyQualifiedServiceName(service, configData, configData.get(MASTER_REGISTRY_SERVICE_02_NAME_KEY), true);
 	}
 	
 	/**
