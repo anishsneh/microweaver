@@ -35,6 +35,7 @@
        - java-1.8.0-openjdk
        - bind-utils
        - telnet
+       - net-tools
        - python
        - python-pip
        - python-yaml
