@@ -20,8 +20,24 @@ spec:
       containers:
       - name: microweaver-core-service
         image: 192.168.57.150:5000/microweaver/microweaver-core-service:0.0.1-SNAPSHOT
+        resources:
+          limits:
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: http-main
+          initialDelaySeconds: 120
+          failureThreshold: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: http-main
+          initialDelaySeconds: 120
+          failureThreshold: 10
         ports:
-        - containerPort: 9180
+        - name: http-main
+          containerPort: 9180
         imagePullPolicy: Always
         env:
         - name: MICROSERVICE_SERVICE_NAME

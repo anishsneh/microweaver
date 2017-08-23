@@ -20,16 +20,21 @@ spec:
       containers:
       - name: microweaver-sidecar-service
         image: 192.168.57.150:5000/microweaver/microweaver-sidecar-service:0.0.1-SNAPSHOT
+        resources:
+          limits:
+            cpu: "500m"
         livenessProbe:
           httpGet:
             path: /health
             port: http-main          
-          initialDelaySeconds: 40
+          initialDelaySeconds: 120
+          failureThreshold: 10
         readinessProbe:
           httpGet:
             path: /health
             port: http-main
-          initialDelaySeconds: 40
+          initialDelaySeconds: 120
+          failureThreshold: 10
         ports:
         - name: http-main
           containerPort: 9178

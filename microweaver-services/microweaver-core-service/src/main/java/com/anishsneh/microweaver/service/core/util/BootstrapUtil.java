@@ -148,6 +148,7 @@ public class BootstrapUtil {
 		else {
 			serviceHostname = String.format(SERVICE_FQDN_TPL, serviceName, systemNamespace, systemDomain);
 		}
+		logger.info("Got fully qualified service hostname [{}] for service namespace [{}], system namespace [{}]", serviceHostname, serviceNamespace, systemNamespace);
 		return serviceHostname;
 	}
 	
@@ -236,7 +237,7 @@ public class BootstrapUtil {
 	 * @return the registry service 01 name
 	 */
 	public static String getRegistryService01Name(final Service service, final Map<String, String> configData) {
-		return getFullyQualifiedServiceName(service, configData, MASTER_REGISTRY_SERVICE_01_NAME_KEY);
+		return getFullyQualifiedServiceName(service, configData, configData.get(MASTER_REGISTRY_SERVICE_01_NAME_KEY));
 	}
 	
 	/**
@@ -247,7 +248,7 @@ public class BootstrapUtil {
 	 * @return the registry service 02 name
 	 */
 	public static String getRegistryService02Name(final Service service, final Map<String, String> configData) {
-		return getFullyQualifiedServiceName(service, configData, MASTER_REGISTRY_SERVICE_02_NAME_KEY);
+		return getFullyQualifiedServiceName(service, configData, configData.get(MASTER_REGISTRY_SERVICE_02_NAME_KEY));
 	}
 	
 	/**

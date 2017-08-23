@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.anishsneh.microweaver.service.core.config.ApplicationProperties;
 import com.anishsneh.microweaver.service.core.exception.ContainerManagerException;
 import com.anishsneh.microweaver.service.core.helper.KubernetesApiHelper;
 import com.anishsneh.microweaver.service.core.infra.ContainerManager;
@@ -49,6 +50,9 @@ public class KubernetesContainerManagerImpl implements ContainerManager {
 	/** The kubernetes api helper. */
 	@Autowired
 	private KubernetesApiHelper kubernetesApiHelper;
+	
+	@Autowired
+	private ApplicationProperties applicationProperties;
 	
 	/**
 	 * Creates the kubernetes deployment.
@@ -125,11 +129,13 @@ public class KubernetesContainerManagerImpl implements ContainerManager {
 			container.getPorts().add(new ContainerPortBuilder().withContainerPort(service.getSidecarPort()).withName("http-sidecar").build());
 			final Probe livenessProbe = new ProbeBuilder()
 					.withHttpGet(new HTTPGetActionBuilder().withPath("/health").withPort(new IntOrString("http-main")).build())
-					.withInitialDelaySeconds(20)
+					.withInitialDelaySeconds(applicationProperties.getKubernetesProbesInitialDelaySeconds())
+					.withFailureThreshold(applicationProperties.getKubernetesProbesFailureThreshold())
 					.build();
 			final Probe readinessProbe = new ProbeBuilder()
 					.withHttpGet(new HTTPGetActionBuilder().withPath("/health").withPort(new IntOrString("http-main")).build())
-					.withInitialDelaySeconds(20)
+					.withInitialDelaySeconds(applicationProperties.getKubernetesProbesInitialDelaySeconds())
+					.withFailureThreshold(applicationProperties.getKubernetesProbesFailureThreshold())
 					.build();
 			container.setLivenessProbe(livenessProbe);
 			container.setReadinessProbe(readinessProbe);

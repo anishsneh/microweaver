@@ -18,6 +18,14 @@ public class ApplicationProperties {
 	@Value("${application.kubernetes.url}")
 	private String kubernetesUrl;
 	
+	/** The kubernetes probes initial delay seconds. */
+	@Value("${application.kubernetes.probes.initialDelaySeconds}")
+	private int kubernetesProbesInitialDelaySeconds;
+
+	/** The kubernetes probes failure threshold. */
+	@Value("${application.kubernetes.probes.failureThreshold}")
+	private int kubernetesProbesFailureThreshold;
+	
 	/** The kubernetes auth token path. */
 	@Value("${application.kubernetes.authTokenPath}")
 	private String kubernetesAuthTokenPath;
@@ -44,7 +52,30 @@ public class ApplicationProperties {
 		return kubernetesAuthTokenPath;
 	}
 	
+	/**
+	 * Checks if is system load bootstrap services to db.
+	 *
+	 * @return true, if is system load bootstrap services to db
+	 */
 	public final boolean isSystemLoadBootstrapServicesToDb() {
 		return systemLoadBootstrapServicesToDb;
+	}
+	
+	/**
+	 * Gets the kubernetes probes initial delay seconds.
+	 *
+	 * @return the kubernetes probes initial delay seconds
+	 */
+	public final int getKubernetesProbesInitialDelaySeconds() {
+		return kubernetesProbesInitialDelaySeconds;
+	}
+
+	/**
+	 * Gets the kubernetes probes failure threshold.
+	 *
+	 * @return the kubernetes probes failure threshold
+	 */
+	public final int getKubernetesProbesFailureThreshold() {
+		return kubernetesProbesFailureThreshold;
 	}
 }

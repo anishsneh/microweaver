@@ -15,6 +15,7 @@ import com.anishsneh.microweaver.service.core.helper.KubernetesApiHelper;
 import com.anishsneh.microweaver.service.core.jpa.entity.ServiceEntity;
 import com.anishsneh.microweaver.service.core.util.ApiContants;
 import com.anishsneh.microweaver.service.core.util.BootstrapUtil;
+import com.anishsneh.microweaver.service.core.util.CommonUtil;
 
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.client.KubernetesClient;
@@ -48,6 +49,7 @@ public class MicroweaverCoreStartupHook {
 	 */
 	@EventListener({ ContextRefreshedEvent.class })
 	public void onContextRefresh() {
+		logger.info(CommonUtil.asJsonString(applicationProperties));
 		final boolean loadBootStrapServices = applicationProperties.isSystemLoadBootstrapServicesToDb();
 		logger.info("Context refreshed, flag loadBootstrapServiceToServiceDb [{}]", loadBootStrapServices);
 		if(loadBootStrapServices) {

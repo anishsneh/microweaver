@@ -17,18 +17,24 @@ spec:
       containers:
       - name: microweaver-registry-service-02
         image: 192.168.57.150:5000/microweaver/microweaver-registry-service:0.0.1-SNAPSHOT
+        resources:
+          limits:
+            cpu: "500m"
         livenessProbe:
           httpGet:
             path: /health
-            port: 9161
-          initialDelaySeconds: 20
+            port: http-main
+          initialDelaySeconds: 120
+          failureThreshold: 10
         readinessProbe:
           httpGet:
             path: /health
-            port: 9161
-          initialDelaySeconds: 20
+            port: http-main
+          initialDelaySeconds: 120
+          failureThreshold: 10
         ports:
-        - containerPort: 9161
+        - name: http-main
+          containerPort: 9161
         imagePullPolicy: Always
         env:
         - name: MICROSERVICE_SERVICE_NAME

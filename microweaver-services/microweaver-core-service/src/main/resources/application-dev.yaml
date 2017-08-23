@@ -58,3 +58,6 @@ application:
   kubernetes:
     url: https://kubernetes.default:443
     authTokenPath: /var/run/secrets/kubernetes.io/serviceaccount/token
+    probes:
+      initialDelaySeconds: 120
+      failureThreshold: 10

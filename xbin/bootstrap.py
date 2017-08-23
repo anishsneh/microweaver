@@ -104,9 +104,10 @@ def _check_deployment_status(client, system_namespace, deployment):
         try:
             deployment_status = client.read_namespaced_deployment_status(deployment.get("name"), system_namespace, pretty = "true")
             status = deployment_status.status
-            log("Deployment status: " + str(status))
+            log("=================================== DEPLOYMENT STATUS [{}] ===================================".format(deployment.get("name")))
+            log(str(status))
             if(status.available_replicas >= _min_replicas):
-                log("Got desired number of replicas up and running")
+                log("++++++++++++++++++++++++++++++ Got desired number of replicas up and running for [{}]".format(deployment.get("name")))
                 success = True
         except Exception as e:
             log("Deployment is not ready yet, will retry [{}]".format(str(e)))
