@@ -31,10 +31,8 @@ spec:
         env:
         - name: MICROSERVICE_SERVICE_NAME
           value: microweaver-gateway-service
-        - name: EUREKA_SERVICE_NAME_01
-          value: microweaver-registry-service-01
-        - name: EUREKA_SERVICE_NAME_02
-          value: microweaver-registry-service-02
+        - name: SYSTEM_REGISTRY_DEFAULT_ZONE
+          value: http://microweaver-registry-service-01:9161/eureka/,http://microweaver-registry-service-02:9161/eureka/
 ---
 apiVersion: v1
 kind: Service

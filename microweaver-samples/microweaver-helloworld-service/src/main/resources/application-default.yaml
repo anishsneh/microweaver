@@ -30,7 +30,7 @@ eureka:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
-      defaultZone: http://${EUREKA_SERVICE_NAME_01}:9161/eureka/,http://${EUREKA_SERVICE_NAME_02}:9161/eureka/
+      defaultZone: ${SYSTEM_REGISTRY_DEFAULT_ZONE}
     healthcheck:
       enabled: true
     

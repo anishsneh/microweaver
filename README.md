@@ -6,6 +6,7 @@ This repository includes core framework, samples services, maven plugin configur
 * Container Infrastructure
 	* Kubernetes Platform
 	* Kubernetes Dashboard
+	* CAdvisor
 	* Core DNS
 	* Docker Distribution Service
 	* Tinyproxy
@@ -32,9 +33,11 @@ To spin development environment we need to install following tools on developmen
 3. [Virtualbox](https://www.virtualbox.org)
 4. [JDK 1.8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 5. [Maven](https://maven.apache.org/download.cgi)
-6. [Docker](https://www.docker.com)
-7. [Python - pip, wheel, kubernetes-client](https://www.python.org)
-> Note that we are referring local desktop/laptop as devbox &amp; kube development cluster machine as kubehost 
+6. [Git](https://en.wikipedia.org/wiki/Git)
+7. [Docker](https://www.docker.com)
+8. [Python (additional modules - pip, wheel, kubernetes)](https://www.python.org)
+It needs atleast 4 CPUs &amp; 8GB memory for development VM.
+> Note that we are referring local desktop/laptop as devbox &amp; kube development cluster machine as kubehost (SELinux should be disabled on local devbox).
 ##### Steps
 1. Clone [Microweaver Repository](https://github.com/anishsneh/microweaver) from GitHub:
     ```sh
@@ -71,7 +74,7 @@ To spin development environment we need to install following tools on developmen
 	coredns-3788349839-ftpzd                1/1       Running   0          3m
 	kubernetes-dashboard-3839207111-5bqvm   1/1       Running   0          3m
     ```
-6. Add insecure registry to docker configurations &amp; start local docker service (on devbox i.e. local desktop/laptop).
+6. Add insecure registry 192.168.57.150:5000 to docker configurations &amp; start local docker service (on devbox i.e. local desktop/laptop).
 7. Build microweaver components &amp; deploy to development cluster's docker registry:
 	```sh
     [root@devbox ~]# cd microweaver
@@ -171,6 +174,7 @@ To spin development environment we need to install following tools on developmen
 | Service/Component Name | Port | URL
 | ------ | ------ | ------ |
 | Kubernetes Dashboard | 8080 | http://192.168.57.150:8080/ui |
+| Kubernetes CAdvisor | 4194 | http://192.168.57.150:4194 |
 | Admin Service | 30090 | http://192.168.57.150:30090|
 | Service Gateway | 30080 | N/A |
 | Core Service | 30080 | http://192.168.57.150:30080/api/core-service/v1.0/services/1 | 
@@ -181,6 +185,6 @@ For service to be discoverable you MUST USE following application properties:
 ```sh
 eureka.instance.hostname=${MICROSERVICE_SERVICE_NAME}
 eureka.instance.preferIpAddress=false
-eureka.client.serviceUrl.defaultZone=http://${EUREKA_SERVICE_NAME_01}:9161/eureka/,http://${EUREKA_SERVICE_NAME_02}:9161/eureka/
+eureka.client.serviceUrl.defaultZone=${SYSTEM_REGISTRY_DEFAULT_ZONE}
 ```
 > Note that development cluster is all-in-one Kubernetes cluster (master & minion on the same node) with RabbitMQ &amp; MariaDB services (based on CentOS 7). The ip address of development cluster is 192.168.57.150 by default, it is configurable via Vagrantfile (if required).

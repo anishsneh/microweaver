@@ -12,10 +12,13 @@ _MICROWEAVER_HOME = os.getenv("MICROWEAVER_HOME")
 
 _master_conf_path_tpl = "{}/xconf/master.yaml"
 
-_check_status = True
+_sync_deployment = True
 _min_replicas = 1
 _max_attempts = 20
 _attempt_wait = 5
+
+_SYSTEM_REGISTRY_TPL = "http://{0}:{1}/eureka/"
+_SERVICE_FQDN_TPL = "{0}.{1}.svc.{2}";
 
 def log(message):
     print("[{ts}] {msg}".format(ts = str(datetime.datetime.now()), msg = message))
@@ -97,9 +100,12 @@ def _get_client(system_conf, api_version = None):
         raise SystemExit("Invalid API version [{}]".format(api_version))
     return client_obj
 
-def _check_deployment_status(client, system_namespace, deployment):
+def _check_deployment_status(master_conf, deployment):
     attempts = 0
     success = False
+    system_conf = master_conf.get("master").get("configurations").get("system").values()
+    system_namespace = master_conf.get("master").get("namespace").get("system")
+    client = _get_client(system_conf, "EXTENSIONS_V1BETA1")
     while (not success) and (attempts < _max_attempts):
         try:
             deployment_status = client.read_namespaced_deployment_status(deployment.get("name"), system_namespace, pretty = "true")
@@ -155,7 +161,7 @@ def _create_deployment(master_conf, deployment, ro):
     port_index = 0
     container_index = 0
     system_namespace = master_conf.get("master").get("namespace").get("system")
-    #_pretty_print_json(ro, "Before Service definition")
+    system_domain = master_conf.get("master").get("domain")
     if "metadata" in ro:
         md = ro["metadata"]
         md["name"] = deployment.get("name")
@@ -189,22 +195,30 @@ def _create_deployment(master_conf, deployment, ro):
                     registry_02 = deployments_defs.get("REGISTRY_SERVICE_02")
                     db_service = deployments_defs.get("DATABASE_SERVICE")
                     mq_service = deployments_defs.get("MESSAGING_SERVICE")
+                    
+                    system_registry_default_zone = []
+                    if registry_01.get("enabled"):
+                        registry_01_fqdn = _SERVICE_FQDN_TPL.format(registry_01.get("name"), system_namespace, system_domain)
+                        system_registry_01_url = _SYSTEM_REGISTRY_TPL.format(registry_01_fqdn, registry_01.get("port"))
+                        system_registry_default_zone.append(system_registry_01_url)
+                    if registry_02.get("enabled"):
+                        registry_02_fqdn = _SERVICE_FQDN_TPL.format(registry_02.get("name"), system_namespace, system_domain)
+                        system_registry_02_url = _SYSTEM_REGISTRY_TPL.format(registry_02_fqdn, registry_02.get("port"))
+                        system_registry_default_zone.append(system_registry_02_url)                    
+                    
+                    system_registry_default_zone_str = ",".join(system_registry_default_zone)
                     environment_vars = [
                         {
                             "name" : "MICROSERVICE_SERVICE_NAME",
-                            "value" : deployment.get("name")
+                            "value" : _SERVICE_FQDN_TPL.format(deployment.get("name"), system_namespace, system_domain)
                         },
                         {
-                            "name" : "EUREKA_SERVICE_NAME_01",
-                            "value" : registry_01.get("name")
-                        },
-                        {
-                            "name" : "EUREKA_SERVICE_NAME_02",
-                            "value" : registry_02.get("name")
+                            "name" : "SYSTEM_REGISTRY_DEFAULT_ZONE",
+                            "value" : system_registry_default_zone_str
                         },
                         {
                             "name" : "SYSTEM_DB_HOST",
-                            "value" : db_service.get("name")
+                            "value" : _SERVICE_FQDN_TPL.format(db_service.get("name"), system_namespace, system_domain)
                         },
                         {
                             "name" : "SYSTEM_DB_SECRET",
@@ -212,24 +226,24 @@ def _create_deployment(master_conf, deployment, ro):
                         },
                         {
                             "name" : "SYSTEM_MQ_HOST",
-                            "value" : mq_service.get("name")
+                            "value" : _SERVICE_FQDN_TPL.format(mq_service.get("name"), system_namespace, system_domain)
                         },
                         {
                             "name" : "SYSTEM_MQ_SECRET",
                             "value" : mq_service.get("secret")
+                        },
+                        {    "name" : "SYSTEM_DOMAIN",
+                            "value" : system_domain
                         }
-                                        
                     ]
                     tplspec["containers"][container_index]["env"] = environment_vars
-    _pretty_print_json(ro, "Service definition")
+    _pretty_print_json(ro, "Deployment definition")
     client = _get_client(system_conf, "EXTENSIONS_V1BETA1")
     try:
         response = client.create_namespaced_deployment(system_namespace, ro, pretty = 'true')
         log("Service creation triggered, response ['{}']".format(str(response)))
     except ApiException as e:
-        raise SystemExit("ERROR: Failed to create service [{}]".format(e))
-    if _check_status:
-        _check_deployment_status(client, system_namespace, deployment)
+        raise SystemExit("ERROR: Failed to create deployment [{}]".format(e))
     
 # TODO Change to use Jinja2 templates
 def _create_service(master_conf, deployment, ro):
@@ -266,7 +280,7 @@ def _create_endpoints(master_conf, deployment, resource_object):
     resource_object["metadata"]["namespace"] = system_namespace
     resource_object["subsets"][subset_index]["addresses"][address_index]["ip"] = deployment.get("externalHost")
     resource_object["subsets"][subset_index]["ports"][port_index]["port"] = deployment.get("port")
-    _pretty_print_json(resource_object, "Service definition")
+    _pretty_print_json(resource_object, "Endpoint definition")
     client = _get_client(system_conf, "V1")
     try:
         response = client.create_namespaced_endpoints(system_namespace, resource_object, pretty = 'true')
@@ -279,7 +293,7 @@ def _create_deployments(master_conf):
     deployments = master_conf.get("master").get("deployments").values()
     deployments_sorted_by_index = sorted(deployments, key = itemgetter('index'), reverse = False)
     for deployment in deployments_sorted_by_index:
-        if(not deployment.get("bootstrap")):
+        if(not deployment.get("enabled")):
             log("============================ SKIPPING DEPLOYMENT [{}] ============================".format(deployment.get("name")))
             continue
         log("============================ PROCESSING DEPLOYMENT [{}] ============================".format(deployment.get("name")))
@@ -313,7 +327,9 @@ def _create_deployments(master_conf):
                 _create_configmap(master_conf, deployment, resource_object)
             else:
                 raise SystemExit("ERROR: Unsupported resource kind [{}]".format(resource_object.get("kind")))
-
+        if "microweaver-services" == deployment.get("category") and _sync_deployment:
+            _check_deployment_status(master_conf, deployment)
+        
 def _validate_configuration(master_conf):
     log("Validating master configuration")
     log("Checking connectivity")

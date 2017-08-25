@@ -30,7 +30,7 @@ master:
       user: root
       secret: topsecret
       type: SYSTEM
-      bootstrap: true
+      enabled: true
       index: 2
     MESSAGING_SERVICE:
       name: microweaver-core-messaging
@@ -42,7 +42,7 @@ master:
       user: root
       secret: topsecret
       type: SYSTEM
-      bootstrap: true
+      enabled: true
       index: 3
     PLATFORM_NAMESPACE:
       name: microweaver-core-namespace
@@ -50,7 +50,7 @@ master:
       category: microweaver-platform
       key: namespace
       type: SYSTEM
-      bootstrap: true
+      enabled: true
       index: 0
     PLATFORM_CONFIGURATION:
       name: microweaver-master
@@ -58,7 +58,7 @@ master:
       category: microweaver-platform
       key: configmap
       type: SYSTEM
-      bootstrap: true
+      enabled: true
       index: 1
     CORE_SERVICE:
       name: microweaver-core-service
@@ -71,7 +71,7 @@ master:
       port: 9180
       key: core
       type: SYSTEM
-      bootstrap: true
+      enabled: true
       index: 8
     REGISTRY_SERVICE_01:
       name: microweaver-registry-service-01
@@ -84,7 +84,7 @@ master:
       port: 9161
       key: registry01
       type: SYSTEM
-      bootstrap: true
+      enabled: true
       index: 4
     REGISTRY_SERVICE_02:
       name: microweaver-registry-service-02
@@ -97,7 +97,7 @@ master:
       port: 9161
       key: registry02
       type: SYSTEM
-      bootstrap: true
+      enabled: true
       index: 5
     GATEWAY_SERVICE:
       name: microweaver-gateway-service
@@ -110,7 +110,7 @@ master:
       port: 9165
       key: gateway
       type: SYSTEM
-      bootstrap: true
+      enabled: true
       index: 6
     ADMIN_SERVICE:
       name: microweaver-admin-service
@@ -123,7 +123,7 @@ master:
       port: 9190
       key: admin
       type: SYSTEM
-      bootstrap: true
+      enabled: true
       index: 7
     SIDECAR_SERVICE:
       name: microweaver-sidecar-service
@@ -137,6 +137,6 @@ master:
       sidecarPort: 7000
       key: sidecar
       type: SYSTEM
-      bootstrap: true
+      enabled: true
       index: 9
         

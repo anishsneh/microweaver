@@ -3,6 +3,7 @@ package com.anishsneh.microweaver.service.core.infra.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.StringJoiner;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,6 +52,7 @@ public class KubernetesContainerManagerImpl implements ContainerManager {
 	@Autowired
 	private KubernetesApiHelper kubernetesApiHelper;
 	
+	/** The application properties. */
 	@Autowired
 	private ApplicationProperties applicationProperties;
 	
@@ -78,6 +80,16 @@ public class KubernetesContainerManagerImpl implements ContainerManager {
 				replicas = 0;
 			}
 		}
+		final StringJoiner registryServiceUrlJoiner = new StringJoiner(",");
+		if(null != BootstrapUtil.getRegistryService01Name(service, configData)) {
+			final String registry01Url = BootstrapUtil.getSystemRegistryUrl(BootstrapUtil.getRegistryService01Name(service, configData), BootstrapUtil.getRegistryService01Port(configData));
+			registryServiceUrlJoiner.add(registry01Url);
+		}
+		if(null != BootstrapUtil.getRegistryService02Name(service, configData)) {
+			final String registry02Url =  BootstrapUtil.getSystemRegistryUrl(BootstrapUtil.getRegistryService02Name(service, configData), BootstrapUtil.getRegistryService02Port(configData));
+			registryServiceUrlJoiner.add(registry02Url);
+		}
+		logger.info("Using service registries [{}]", registryServiceUrlJoiner.toString());
 		final Deployment kubeDeployment = new DeploymentBuilder()
 		          .withNewMetadata()
 			          .addToLabels("app", service.getName())
@@ -114,10 +126,10 @@ public class KubernetesContainerManagerImpl implements ContainerManager {
 						          	.withName("MICROSERVICE_SERVICE_NAME").withValue(BootstrapUtil.getServiceHostname(service, configData))
 						          .endEnv()
 						          .addNewEnv()
-						          	.withName("EUREKA_SERVICE_NAME_01").withValue(BootstrapUtil.getRegistryService01Name(service, configData))
+						          	.withName("SYSTEM_REGISTRY_DEFAULT_ZONE").withValue(registryServiceUrlJoiner.toString())
 						          .endEnv()
 						          .addNewEnv()
-						          	.withName("EUREKA_SERVICE_NAME_02").withValue(BootstrapUtil.getRegistryService02Name(service, configData))
+						          	.withName("SYSTEM_DOMAIN").withValue(BootstrapUtil.getSystemDomain(configData))
 						          .endEnv()
 					          .endContainer()
 				          .endSpec()
