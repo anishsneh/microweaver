@@ -22,7 +22,8 @@ spec:
         image: 192.168.57.150:5000/microweaver/microweaver-core-service:0.0.1-SNAPSHOT
         resources:
           limits:
-            cpu: "1000m"
+            cpu: 1000m
+            memory: 256Mi
         livenessProbe:
           httpGet:
             path: /health

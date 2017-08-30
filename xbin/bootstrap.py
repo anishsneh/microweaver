@@ -190,6 +190,15 @@ def _create_deployment(master_conf, deployment, ro):
                 image = "{h}:{p}/{n}:{t}".format(h = registry_host, p = registry_port, n = deployment.get("image").get("name"), t = deployment.get("image").get("tag"))
                 if "containers" in tplspec:
                     tplspec["containers"][container_index]["image"] = image
+                    
+                    if deployment.get("limits"):
+                        if deployment.get("cpu"):
+                            if deployment.get("cpu").strip() != "UNLIMITED":
+                                tplspec["containers"][container_index]["resources"]["limits"]["cpu"] = deployment.get("cpu")
+                        if deployment.get("memory"):
+                            if deployment.get("memory").strip() != "UNLIMITED":
+                                tplspec["containers"][container_index]["resources"]["limits"]["memory"] = deployment.get("memory")
+                    
                     deployments_defs = master_conf.get("master").get("deployments")
                     registry_01 = deployments_defs.get("REGISTRY_SERVICE_01")
                     registry_02 = deployments_defs.get("REGISTRY_SERVICE_02")

@@ -71,6 +71,9 @@ master:
       port: 9180
       key: core
       type: SYSTEM
+      limits:
+        cpu: 1000m
+        memory: 256Mi
       enabled: true
       index: 8
     REGISTRY_SERVICE_01:
@@ -84,6 +87,9 @@ master:
       port: 9161
       key: registry01
       type: SYSTEM
+      limits:
+        cpu: 500m
+        memory: 256Mi
       enabled: true
       index: 4
     REGISTRY_SERVICE_02:
@@ -97,6 +103,9 @@ master:
       port: 9161
       key: registry02
       type: SYSTEM
+      limits:
+        cpu: 500m
+        memory: 256Mi
       enabled: true
       index: 5
     GATEWAY_SERVICE:
@@ -110,6 +119,9 @@ master:
       port: 9165
       key: gateway
       type: SYSTEM
+      limits:
+        cpu: 500m
+        memory: 256Mi
       enabled: true
       index: 6
     ADMIN_SERVICE:
@@ -123,6 +135,9 @@ master:
       port: 9190
       key: admin
       type: SYSTEM
+      limits:
+        cpu: 500m
+        memory: 256Mi
       enabled: true
       index: 7
     SIDECAR_SERVICE:
@@ -137,6 +152,9 @@ master:
       sidecarPort: 7000
       key: sidecar
       type: SYSTEM
+      limits:
+        cpu: 500m
+        memory: 256Mi
       enabled: true
       index: 9
         
