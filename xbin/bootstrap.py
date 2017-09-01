@@ -189,14 +189,22 @@ def _create_deployment(master_conf, deployment, ro):
                 tplspec["containers"][container_index]["name"] = deployment.get("name")
                 image = "{h}:{p}/{n}:{t}".format(h = registry_host, p = registry_port, n = deployment.get("image").get("name"), t = deployment.get("image").get("tag"))
                 if "containers" in tplspec:
-                    tplspec["containers"][container_index]["image"] = image
-                    
+                    tplspec["containers"][container_index]["image"] = image                    
                     if deployment.get("limits"):
-                        if deployment.get("cpu"):
-                            if deployment.get("cpu").strip() != "UNLIMITED":
+                        limits = deployment.get("limits")
+                        if limits.get("cpu"):
+                            if limits.get("cpu").strip() == "UNLIMITED":
+                                log("Setting CPU limits to unlimited")
+                                del tplspec["containers"][container_index]["resources"]["limits"]["cpu"]
+                            else:
+                                log("Setting CPU limits to [{}]".format(deployment.get("cpu")))
                                 tplspec["containers"][container_index]["resources"]["limits"]["cpu"] = deployment.get("cpu")
-                        if deployment.get("memory"):
-                            if deployment.get("memory").strip() != "UNLIMITED":
+                        if limits.get("memory"):
+                            if limits.get("memory").strip() == "UNLIMITED":
+                                log("Setting memory limits to unlimited")
+                                del tplspec["containers"][container_index]["resources"]["limits"]["memory"]
+                            else:
+                                log("Setting memory limits to [{}]".format(deployment.get("memory")))
                                 tplspec["containers"][container_index]["resources"]["limits"]["memory"] = deployment.get("memory")
                     
                     deployments_defs = master_conf.get("master").get("deployments")
@@ -250,7 +258,7 @@ def _create_deployment(master_conf, deployment, ro):
     client = _get_client(system_conf, "EXTENSIONS_V1BETA1")
     try:
         response = client.create_namespaced_deployment(system_namespace, ro, pretty = 'true')
-        log("Service creation triggered, response ['{}']".format(str(response)))
+        log("Deployment creation triggered, response ['{}']".format(str(response)))
     except ApiException as e:
         raise SystemExit("ERROR: Failed to create deployment [{}]".format(e))
     

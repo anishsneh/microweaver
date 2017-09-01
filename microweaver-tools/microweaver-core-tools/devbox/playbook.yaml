@@ -3,6 +3,9 @@
 # Ansible playbook to configure single node standlone Kubernetes cluster
 # This will be invoked by Vagrant Ansible provisioner
 #
+# To run playbook without ansible use:
+#   ansible-playbook -i <target_host_ip>, -u root -e "k_hostname=kubehost k_ip=<target_host_ip>" -k playbook.yaml
+#
 # @author Anish Sneh
 #
 #

@@ -1,5 +1,7 @@
 FROM alpine:3.6
 RUN apk update
+RUN apk add --no-cache strace
+RUN apk add --no-cache sysstat
 RUN apk add --no-cache openjdk8
 RUN apk add --no-cache htop
 RUN apk add --no-cache bind
