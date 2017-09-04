@@ -65,7 +65,7 @@ It needs atleast 4 CPUs &amp; 8GB memory for development VM.
     ```
     Check services:
 	```sh
-	[vagrant@kubehost ~]# for SERVICE in tinyproxy mariadb rabbitmq-server docker-registry etcd kube-apiserver kube-controller-manager kube-scheduler kube-proxy kubelet docker; do systemctl status $SERVICE; done
+	[vagrant@kubehost ~]# for SERVICE in tinyproxy mariadb rabbitmq-server docker-distribution etcd kube-apiserver kube-controller-manager kube-scheduler kube-proxy kubelet docker; do systemctl status $SERVICE; done
     ```
     Check pods, you should see following two pods running:
 	```sh
