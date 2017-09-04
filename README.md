@@ -167,7 +167,7 @@ It needs atleast 4 CPUs &amp; 8GB memory for development VM.
 11. From local browser navigate to http://192.168.57.150:8080/ui &amp; check Kubernetes dashboard, you should see microweaver platform pods deployed:
 ![Kubernetes Dashboard | http://www.anishsneh.com](https://user-images.githubusercontent.com/5123162/29532785-bc6cb8b2-86a6-11e7-8b7d-ddd50007860d.png)
 12. From local browser navigate to http://192.168.57.150:30090 &amp; check Spring Boot Admin console, you should see microweaver platform services deployed:
-![Admin Service | http://www.anishsneh.com](https://user-images.githubusercontent.com/5123162/29532796-c766d964-86a6-11e7-8bcf-9603f9c3811b.png)
+![Admin Service | http://www.anishsneh.com](https://user-images.githubusercontent.com/5123162/30037663-02a29482-91b5-11e7-8ad4-527b068f7df5.png)
 13. From local browser navigate to http://192.168.57.150:30080/api/core-service/swagger-ui.html &amp; check docs, you should see API docs:
 ![API Docs | http://www.anishsneh.com](https://user-images.githubusercontent.com/5123162/29532799-ca1fae1a-86a6-11e7-8b9a-21a475798122.png)
 ### Information
@@ -175,10 +175,12 @@ It needs atleast 4 CPUs &amp; 8GB memory for development VM.
 | ------ | ------ | ------ |
 | Kubernetes Dashboard | 8080 | http://192.168.57.150:8080/ui |
 | Kubernetes CAdvisor | 4194 | http://192.168.57.150:4194 |
-| Admin Service | 30090 | http://192.168.57.150:30090|
-| Service Gateway | 30080 | N/A |
-| Core Service | 30080 | http://192.168.57.150:30080/api/core-service/v1.0/services/1 | 
-| Core Service API Docs | 30080 | http://192.168.57.150:30080/api/core-service/swagger-ui.html | 
+| Maria DB | 3306 | jdbc:mysql://192.168.57.150:3306 |
+| Rabbit MQ | 15672 | http://192.168.57.150:15672 |
+| Microweaver Admin Service | 30090 | http://192.168.57.150:30090|
+| Microweaver Service Gateway | 30080 | N/A |
+| Microweaver Core Service | 30080 | http://192.168.57.150:30080/api/core-service/v1.0/services/1 | 
+| Microweaver Core Service API Docs | 30080 | http://192.168.57.150:30080/api/core-service/swagger-ui.html | 
 
 > All services are accessible through gateway. On deployment services will dynamically register themselves with Eureka which in turn will be discovered by Zuul gateway &amp; corresponding route will be created. 
 For service to be discoverable you MUST USE following application properties:
