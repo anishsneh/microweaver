@@ -166,7 +166,7 @@ public class Service {
 	 *
 	 * @return the image name
 	 */
-	@ApiModelProperty(position = 6, required = false, value = "Service container image", example = "helloworld-service")
+	@ApiModelProperty(position = 6, required = false, value = "Service container image", example = "helloworld/helloworld-service")
 	@NotNull(message = "A valid service image name is required", groups = { CreateGroup.class })
     @NotBlank(message = "A valid service image name is required", groups = { CreateGroup.class })
 	@Pattern(regexp = "[a-z\\-A-Z0-9_/]+", message = "A valid service image name has invalid characters (only a-z, A-Z, 0-9, '-', '_', '/' are allowed)", groups = { CreateGroup.class, UpdateGroup.class })
