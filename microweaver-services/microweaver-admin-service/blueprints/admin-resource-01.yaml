@@ -1,47 +1,17 @@
-apiVersion: extensions/v1beta1
-kind: Deployment
+apiVersion: v1
+kind: Service
 metadata:
   labels:
     app: microweaver-admin-service
   name: microweaver-admin-service
   namespace: microweaver-system
 spec:
-  replicas: 1
+  type: NodePort  
+  ports:
+  - name: http
+    port: 9190
+    nodePort: 30090
+    targetPort: 9190
+    protocol: TCP
   selector:
-    matchLabels:
-      app: microweaver-admin-service
-  template:
-    metadata:
-      labels:
-        app: microweaver-admin-service
-      name: microweaver-admin-service
-      namespace: microweaver-system
-    spec:
-      containers:
-      - name: microweaver-admin-service
-        image: 192.168.57.150:5000/microweaver/microweaver-admin-service:0.0.1-SNAPSHOT
-        resources:
-          limits:
-            cpu: 500m
-            memory: 256Mi
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: http-main
-          initialDelaySeconds: 120
-          failureThreshold: 10
-        readinessProbe:
-          httpGet:
-            path: /health
-            port: http-main
-          initialDelaySeconds: 120
-          failureThreshold: 10
-        ports:
-        - name: http-main
-          containerPort: 9190
-        imagePullPolicy: Always
-        env:
-        - name: MICROSERVICE_SERVICE_NAME
-          value: microweaver-admin-service
-        - name: SYSTEM_REGISTRY_DEFAULT_ZONE
-          value: http://microweaver-registry-service-01:9161/eureka/,http://microweaver-registry-service-02:9161/eureka/
+    app: microweaver-admin-service

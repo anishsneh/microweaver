@@ -1,20 +1,49 @@
-apiVersion: v1
-kind: Service
+apiVersion: extensions/v1beta1
+kind: Deployment
 metadata:
   labels:
     app: microweaver-sidecar-service
   name: microweaver-sidecar-service
   namespace: microweaver-system
 spec:
-  type: NodePort  
-  ports:
-  - name: http-main
-    port: 9178
-    targetPort: 9178
-    protocol: TCP
-  - name: http-sidecar
-    port: 7000
-    targetPort: 7000
-    protocol: TCP
+  replicas: 1
   selector:
-    app: microweaver-sidecar-service
+    matchLabels:
+      app: microweaver-sidecar-service
+  template:
+    metadata:
+      labels:
+        app: microweaver-sidecar-service
+      name: microweaver-sidecar-service
+      namespace: microweaver-system
+    spec:
+      containers:
+      - name: microweaver-sidecar-service
+        image: 192.168.57.150:5000/microweaver/microweaver-sidecar-service:0.0.1-SNAPSHOT
+        resources:
+          limits:
+            cpu: 500m
+            memory: 256Mi
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: http-main          
+          initialDelaySeconds: 120
+          failureThreshold: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: http-main
+          initialDelaySeconds: 120
+          failureThreshold: 10
+        ports:
+        - name: http-main
+          containerPort: 9178
+        - name: http-sidecar
+          containerPort: 7000
+        imagePullPolicy: Always
+        env:
+        - name: MICROSERVICE_SERVICE_NAME
+          value: microweaver-sidecar-service
+        - name: SYSTEM_REGISTRY_DEFAULT_ZONE
+          value: http://microweaver-registry-service-01:9161/eureka/,http://microweaver-registry-service-02:9161/eureka/
