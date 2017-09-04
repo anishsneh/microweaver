@@ -197,7 +197,7 @@
       command: bash -c 'true | openssl s_client -connect {{ json_response.json.spec.clusterIP }}:443 2>/dev/null | openssl x509 -in /dev/stdin >> /etc/ssl/certs/ca-bundle.crt'
     ##### Deploy core dns
     - name: DEPLOY CORE DNS
-      command: kubectl create -f /vagrant/resources/kubernetes-coredns.yaml
+      command: kubectl create -f /vagrant/resources/kubernetes-{{ k_dns }}.yaml
     ##### Finally restart kubernetes services
     - name: FINALLY RESTART KUBERNETES SERVICES
       service: 

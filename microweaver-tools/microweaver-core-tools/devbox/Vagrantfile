@@ -8,6 +8,7 @@
 #
 kube_ip_address = "192.168.57.150"
 kube_host_name = "kubehost"
+kube_dns = "coredns"
 Vagrant.configure("2") do |config|
   config.vm.box = "centos/7"
   config.vm.provider "virtualbox" do |vb|
@@ -24,7 +25,8 @@ Vagrant.configure("2") do |config|
     ansible.verbose = "v"
     ansible.extra_vars = { 
       "k_hostname" => kube_host_name,
-      "k_ip" => kube_ip_address
+      "k_ip" => kube_ip_address,
+      "k_dns" => kube_dns
     }
   end
 end
