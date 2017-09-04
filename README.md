@@ -171,14 +171,14 @@ It needs atleast 4 CPUs &amp; 8GB memory for development VM.
 13. From local browser navigate to http://192.168.57.150:30080/api/core-service/swagger-ui.html &amp; check docs, you should see API docs:
 ![API Docs | http://www.anishsneh.com](https://user-images.githubusercontent.com/5123162/29532799-ca1fae1a-86a6-11e7-8b9a-21a475798122.png)
 ### Information
-| Service/Component Name | Port | URL
+| Service/Component Name | Port | URL/Context
 | ------ | ------ | ------ |
 | Kubernetes Dashboard | 8080 | http://192.168.57.150:8080/ui |
 | Kubernetes CAdvisor | 4194 | http://192.168.57.150:4194 |
 | Maria DB | 3306 | jdbc:mysql://192.168.57.150:3306 |
 | Rabbit MQ | 15672 | http://192.168.57.150:15672 |
 | Microweaver Admin Service | 30090 | http://192.168.57.150:30090|
-| Microweaver Service Gateway | 30080 | N/A |
+| Microweaver Service Gateway | 30080 | http://192.168.57.150:30080/api/** |
 | Microweaver Core Service | 30080 | http://192.168.57.150:30080/api/core-service/v1.0/services/1 | 
 | Microweaver Core Service API Docs | 30080 | http://192.168.57.150:30080/api/core-service/swagger-ui.html | 
 
