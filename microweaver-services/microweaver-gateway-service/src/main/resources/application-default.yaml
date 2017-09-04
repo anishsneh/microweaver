@@ -36,6 +36,7 @@ hystrix:
 eureka:
   instance:
     hostname: ${MICROSERVICE_SERVICE_NAME}
+    preferIpAddress: true
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
   client:

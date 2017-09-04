@@ -41,7 +41,7 @@ management:
 eureka:
   instance:
     hostname: ${MICROSERVICE_SERVICE_NAME}
-    preferIpAddress: false
+    preferIpAddress: true
     leaseRenewalIntervalInSeconds: 5
     leaseExpirationDurationInSeconds: 5
   client:
