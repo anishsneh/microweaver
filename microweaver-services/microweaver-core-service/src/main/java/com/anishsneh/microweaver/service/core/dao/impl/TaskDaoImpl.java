@@ -53,7 +53,7 @@ public class TaskDaoImpl implements TaskDao {
 	@Override
 	public TaskEntity getTaskByKey(final String key) {
 		log.info("Getting task by key from repository");
-		final TaskEntity taskEntity = taskEntityRepository.findByKey(key);
+		final TaskEntity taskEntity = taskEntityRepository.findByEkey(key);
 		return taskEntity;
 	}
 

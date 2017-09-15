@@ -37,7 +37,7 @@ To spin development environment we need to install following tools on developmen
 7. [Docker](https://www.docker.com)
 8. [Python (additional modules - pip, wheel, kubernetes)](https://www.python.org)
 It needs atleast 4 CPUs &amp; 8GB memory for development VM.
-> Note that we are referring local desktop/laptop as devbox &amp; kube development cluster machine as kubehost (SELinux should be disabled on local devbox).
+> Note that we are referring local desktop/laptop as devbox &amp; kube cluster node as kubehost. The devbox MUST BE a Linux/Mac based machine, as of now Ansible on Windows is not supported (SELinux should be disabled on devbox).
 ##### Steps
 1. Clone [Microweaver Repository](https://github.com/anishsneh/microweaver) from GitHub:
     ```sh
