@@ -21,12 +21,12 @@ public interface TaskEntityRepository extends JpaRepository<TaskEntity, Long> {
 	public TaskEntity findByName(final String name);
 	
 	/**
-	 * Find by key.
+	 * Find by ekey.
 	 *
-	 * @param key the key
+	 * @param key the ekey
 	 * @return the task entity
 	 */
-	public TaskEntity findByKey(final String key);
+	public TaskEntity findByEkey(final String ekey);
 	
 	/**
 	 * Find by id.

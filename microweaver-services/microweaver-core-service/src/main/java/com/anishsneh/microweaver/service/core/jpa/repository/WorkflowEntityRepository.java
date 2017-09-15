@@ -21,12 +21,12 @@ public interface WorkflowEntityRepository extends JpaRepository<WorkflowEntity, 
 	public WorkflowEntity findByName(final String name);
 	
 	/**
-	 * Find by key.
+	 * Find by ekey.
 	 *
-	 * @param key the key
+	 * @param key the ekey
 	 * @return the workflow entity
 	 */
-	public WorkflowEntity findByKey(final String key);
+	public WorkflowEntity findByEkey(final String ekey);
 	
 	/**
 	 * Find by id.
