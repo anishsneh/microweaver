@@ -70,9 +70,9 @@ public class TaskEntity implements Serializable {
 	@Column(nullable = false)
 	private Integer timeout;
 	
-	/** The key. */
+	/** The ekey. */
 	@Column(nullable = false, unique = true)
-	private String key;
+	private String ekey;
 	
 	/** The queue. */
 	@Column

@@ -53,12 +53,12 @@ public class Task {
 	@Pattern(regexp = "[a-z\\-A-Z0-9]+", message = "Task name has invalid characters (only a-z, A-Z, 0-9, '-' are allowed)", groups = { CreateGroup.class, UpdateGroup.class })
 	private String name;
 		
-	/** The key. */
+	/** The ekey. */
 	@ApiModelProperty(position = 3, required = false, value = "Task name", example = "hellotask")
-	@NotNull(message = "A valid task key is required", groups = { CreateGroup.class })
-    @NotBlank(message = "A valid task key is required", groups = { CreateGroup.class })
-	@Pattern(regexp = "[a-zA-Z0-9]+", message = "Task key has invalid characters (only a-z, A-Z, 0-9 are allowed)", groups = { CreateGroup.class, UpdateGroup.class })
-	private String key;
+	@NotNull(message = "A valid task ekey is required", groups = { CreateGroup.class })
+    @NotBlank(message = "A valid task ekey is required", groups = { CreateGroup.class })
+	@Pattern(regexp = "[a-zA-Z0-9]+", message = "Task ekey has invalid characters (only a-z, A-Z, 0-9 are allowed)", groups = { CreateGroup.class, UpdateGroup.class })
+	private String ekey;
 	
 	/** The service name. */
 	@ApiModelProperty(position = 4, required = false, value = "Service name", example = "helloworld-service")

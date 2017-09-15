@@ -115,7 +115,7 @@ public class WorkflowModelMapper {
 				when(Conditions.isNotNull()).map().setDescription(source.getDescription());
 				skip().setId(null);
 				skip().setName(null);
-				skip().setKey(null);
+				skip().setEkey(null);
 				skip().setWorkflowType(null);
 				skip().setNamespace(null);
 				skip().setCreatedOn(null);

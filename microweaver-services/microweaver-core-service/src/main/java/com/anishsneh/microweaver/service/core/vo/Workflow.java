@@ -53,12 +53,12 @@ public class Workflow {
 	@Pattern(regexp = "[a-z\\-A-Z0-9]+", message = "Workflow name has invalid characters (only a-z, A-Z, 0-9, '-' are allowed)", groups = { CreateGroup.class, UpdateGroup.class })
 	private String name;
 	
-	/** The key. */
+	/** The ekey. */
 	@ApiModelProperty(position = 3, required = false, value = "Workflow name", example = "helloworkflow")
-	@NotNull(message = "A valid workflow key is required", groups = { CreateGroup.class })
-    @NotBlank(message = "A valid workflow key is required", groups = { CreateGroup.class })
-	@Pattern(regexp = "[a-zA-Z0-9]+", message = "Workflow key has invalid characters (only a-z, A-Z, 0-9 are allowed)", groups = { CreateGroup.class, UpdateGroup.class })
-	private String key;
+	@NotNull(message = "A valid workflow ekey is required", groups = { CreateGroup.class })
+    @NotBlank(message = "A valid workflow ekey is required", groups = { CreateGroup.class })
+	@Pattern(regexp = "[a-zA-Z0-9]+", message = "Workflow ekey has invalid characters (only a-z, A-Z, 0-9 are allowed)", groups = { CreateGroup.class, UpdateGroup.class })
+	private String ekey;
 	
 	/** The active. */
 	@ApiModelProperty(position = 4, required = false, value = "true, if workflow is active; false for registered workflows", example = "true", readOnly = true)

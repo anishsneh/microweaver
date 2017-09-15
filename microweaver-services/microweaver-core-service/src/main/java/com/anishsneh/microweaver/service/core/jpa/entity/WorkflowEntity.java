@@ -46,9 +46,9 @@ public class WorkflowEntity implements Serializable {
 	@Column
 	private Long id;
 	
-	/** The key. */
+	/** The ekey. */
 	@Column(nullable = false, unique = true)
-	private String key;
+	private String ekey;
 	
 	/** The name. */
 	@Column(nullable = false, unique = true)

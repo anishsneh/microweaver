@@ -90,7 +90,7 @@ public class TaskModelMapper {
 				when(Conditions.isNotNull()).map().setTimeout(source.getTimeout());
 				when(Conditions.isNotNull()).map().setQueue(source.getQueue());
 				skip().setId(null);
-				skip().setKey(null);
+				skip().setEkey(null);
 				skip().setTaskType(null);
 				skip().setName(null);
 				skip().setNamespace(null);
