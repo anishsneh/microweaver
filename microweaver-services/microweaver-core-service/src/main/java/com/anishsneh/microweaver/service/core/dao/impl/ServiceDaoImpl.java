@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 
 import com.anishsneh.microweaver.service.core.dao.ServiceDao;
 import com.anishsneh.microweaver.service.core.infra.ContainerManager;
-import com.anishsneh.microweaver.service.core.jpa.ServiceEntityRepository;
 import com.anishsneh.microweaver.service.core.jpa.entity.ServiceEntity;
+import com.anishsneh.microweaver.service.core.jpa.repository.ServiceEntityRepository;
 import com.anishsneh.microweaver.service.core.mapper.ServiceModelMapper;
 
 /**
@@ -50,10 +50,10 @@ public class ServiceDaoImpl implements ServiceDao {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.anishsneh.microweaver.service.core.dao.ServiceDao#getServiceById(long)
+	 * @see com.anishsneh.microweaver.service.core.dao.ServiceDao#getServiceById(java.lang.Long)
 	 */
 	@Override
-	public ServiceEntity getServiceById(final long id) {
+	public ServiceEntity getServiceById(final Long id) {
 		logger.info("Getting service by id from repository");
 		final ServiceEntity serviceEntity = serviceEntityRepository.findById(id);
 		return serviceEntity;
@@ -71,10 +71,10 @@ public class ServiceDaoImpl implements ServiceDao {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.anishsneh.microweaver.service.core.dao.ServiceDao#deleteServiceById(long)
+	 * @see com.anishsneh.microweaver.service.core.dao.ServiceDao#deleteServiceById(java.lang.Long)
 	 */
 	@Override
-	public void deleteServiceById(long id) {
+	public void deleteServiceById(Long id) {
 		logger.info("Deleting an existing service using repository");
 		final ServiceEntity serviceEntity = serviceEntityRepository.findById(id);
 		containerManager.removeService(serviceModelMapper.asService(serviceEntity));
@@ -94,10 +94,10 @@ public class ServiceDaoImpl implements ServiceDao {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.anishsneh.microweaver.service.core.dao.ServiceDao#serviceExists(long)
+	 * @see com.anishsneh.microweaver.service.core.dao.ServiceDao#serviceExists(java.lang.Long)
 	 */
 	@Override
-	public boolean serviceExists(long id) {
+	public boolean serviceExists(final Long id) {
 		return serviceEntityRepository.exists(id);
 	}
 }

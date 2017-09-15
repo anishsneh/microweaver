@@ -33,7 +33,7 @@ public class ServiceHelper {
 	 * @param id the id
 	 * @return the service by id
 	 */
-	public Service getServiceById(final long id) {
+	public Service getServiceById(final Long id) {
 		final ServiceEntity serviceEntity = serviceDao.getServiceById(id);
 		return serviceModelMapper.asService(serviceEntity);
 	}
@@ -55,7 +55,7 @@ public class ServiceHelper {
 	 *
 	 * @param id the id
 	 */
-	public void deleteServiceById(final long id) {
+	public void deleteServiceById(final Long id) {
 		serviceDao.deleteServiceById(id);
 	}
 	
@@ -67,7 +67,7 @@ public class ServiceHelper {
 	 * @param sync the sync
 	 * @return the service
 	 */
-	public Service updateService(final long id, final Service service, final boolean sync) {
+	public Service updateService(final Long id, final Service service, final boolean sync) {
 		final ServiceEntity serviceEntity = serviceDao.getServiceById(id);
 		serviceModelMapper.updateServiceEntity(service, serviceEntity, sync);
 		serviceDao.updateService(serviceEntity, sync);
@@ -80,10 +80,10 @@ public class ServiceHelper {
 	 * @param id the id
 	 * @return the service
 	 */
-	public Service validateServiceId(final long id) {
+	public Service validateServiceId(final Long id) {
 		final Service service = this.getServiceById(id);
 		if(null == service) {
-			throw new ResourceNotFoundException("ER00002", "Service not found with id: " + id, id);
+			throw new ResourceNotFoundException("ER00002", "Service not found with id: " + id, id + "");
 		}
 		return service;
 	}

@@ -1,5 +1,7 @@
 package com.anishsneh.microweaver.service.core.vo;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -14,6 +16,7 @@ import io.swagger.annotations.ApiModelProperty;
  */
 @ApiModel
 @JsonInclude(Include.NON_NULL)
+@XmlRootElement
 public class Message {
 	
 	/** The code. */
@@ -21,6 +24,12 @@ public class Message {
 	
 	/** The message. */
 	private String message;
+	
+	/**
+	 * Instantiates a new message.
+	 */
+	public Message() {
+	}
 	
 	/**
 	 * Instantiates a new message.

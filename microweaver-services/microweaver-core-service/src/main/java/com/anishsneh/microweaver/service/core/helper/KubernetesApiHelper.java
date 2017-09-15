@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.anishsneh.microweaver.service.core.config.ApplicationProperties;
-import com.anishsneh.microweaver.service.core.util.ApiContants;
 
 import io.fabric8.kubernetes.client.DefaultKubernetesClient;
 import io.fabric8.kubernetes.client.KubernetesClient;
@@ -26,6 +25,7 @@ public class KubernetesApiHelper {
 	/** The Constant logger. */
 	private static final Logger logger = LoggerFactory.getLogger(KubernetesApiHelper.class);
 
+	/** The application properties. */
 	@Autowired
 	private ApplicationProperties applicationProperties;
 	

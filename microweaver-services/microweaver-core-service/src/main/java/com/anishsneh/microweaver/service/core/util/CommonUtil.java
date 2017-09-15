@@ -32,6 +32,20 @@ public class CommonUtil {
 	/** The Constant SERVICE_TYPE_USER. */
 	public static final String SERVICE_TYPE_USER = "USER";
 	
+	/** The Constant WORKFLOW_TYPE_SYSTEM. */
+	//TODO Use enum
+	public static final String WORKFLOW_TYPE_SYSTEM = "SYSTEM";
+	
+	/** The Constant WORKFLOW_TYPE_USER. */
+	public static final String WORKFLOW_TYPE_USER = "USER";
+	
+	/** The Constant TASK_TYPE_SYSTEM. */
+	//TODO Use enum
+	public static final String TASK_TYPE_SYSTEM = "SYSTEM";
+	
+	/** The Constant TASK_TYPE_USER. */
+	public static final String TASK_TYPE_USER = "USER";
+	
 	/**
 	 * As json string.
 	 *

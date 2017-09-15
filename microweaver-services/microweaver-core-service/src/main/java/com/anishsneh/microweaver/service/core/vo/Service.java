@@ -191,7 +191,7 @@ public class Service {
 	@ApiModelProperty(position = 7, required = false, value = "Service container image tag", example = "1.0.0")
 	@NotNull(message = "A valid service image tag is required", groups = { CreateGroup.class })
     @NotBlank(message = "A valid service image tag is required", groups = { CreateGroup.class })
-	@Pattern(regexp = "[a-z\\-\\.A-Z0-9_]+", message = "A valid service image tag has invalid characters (only a-z, A-Z, 0-9, '-', '_', '.' are allowed)", groups = { CreateGroup.class, UpdateGroup.class })
+	@Pattern(regexp = "[a-z\\-\\.A-Z0-9_]+", message = "Service image tag has invalid characters (only a-z, A-Z, 0-9, '-', '_', '.' are allowed)", groups = { CreateGroup.class, UpdateGroup.class })
 	public String getImageTag() {
 		return imageTag;
 	}
@@ -235,7 +235,7 @@ public class Service {
 	@ApiModelProperty(position = 9, required = false, value = "Service namespace to be used for deployment", example = "helloworld-system")
 	@NotNull(message = "A valid service namespace is required", groups = { CreateGroup.class })
     @NotBlank(message = "A valid service namespace is required", groups = { CreateGroup.class })
-	@Pattern(regexp = "[a-z\\-A-Z0-9]+", message = "A valid service namespace has invalid characters (only a-z, A-Z, 0-9, '-' are allowed)", groups = { CreateGroup.class, UpdateGroup.class })
+	@Pattern(regexp = "[a-z\\-A-Z0-9]+", message = "Service namespace has invalid characters (only a-z, A-Z, 0-9, '-' are allowed)", groups = { CreateGroup.class, UpdateGroup.class })
 	public String getNamespace() {
 		return namespace;
 	}

@@ -25,7 +25,7 @@ public interface ServiceDao {
 	 * @param id the id
 	 * @return the service by id
 	 */
-	public ServiceEntity getServiceById(final long id);
+	public ServiceEntity getServiceById(final Long id);
 	
 	/**
 	 * Creates the service.
@@ -40,7 +40,7 @@ public interface ServiceDao {
 	 *
 	 * @param id the id
 	 */
-	public void deleteServiceById(final long id);
+	public void deleteServiceById(final Long id);
 	
 	/**
 	 * Update service.
@@ -56,5 +56,5 @@ public interface ServiceDao {
 	 * @param id the id
 	 * @return true, if successful
 	 */
-	public boolean serviceExists(final long id);
+	public boolean serviceExists(final Long id);
 }

@@ -20,6 +20,10 @@ spring:
       naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
       ddl-auto: update      
       format_sql: true
+  h2:
+    console:
+      enabled: true
+      path: /h2
       
 info:
     enabled: true

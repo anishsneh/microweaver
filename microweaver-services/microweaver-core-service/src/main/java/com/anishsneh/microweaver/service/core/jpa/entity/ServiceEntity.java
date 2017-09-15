@@ -19,8 +19,8 @@ import javax.persistence.Table;
  * 
  */
 @Entity
-@Table(name="service")
-public class ServiceEntity implements Serializable{
+@Table(name="services")
+public class ServiceEntity implements Serializable {
 	
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;

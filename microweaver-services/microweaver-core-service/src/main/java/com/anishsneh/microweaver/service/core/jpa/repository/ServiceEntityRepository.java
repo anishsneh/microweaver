@@ -1,4 +1,4 @@
-package com.anishsneh.microweaver.service.core.jpa;
+package com.anishsneh.microweaver.service.core.jpa.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -26,5 +26,5 @@ public interface ServiceEntityRepository extends JpaRepository<ServiceEntity, Lo
 	 * @param id the id
 	 * @return the service entity
 	 */
-	public ServiceEntity findById(final long id);
+	public ServiceEntity findById(final Long id);
 }

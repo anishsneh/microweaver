@@ -81,7 +81,7 @@ public class ServiceModelMapper {
 	 * @param force the force
 	 */
 	public void updateServiceEntity(final Service service, final ServiceEntity serviceEntity, final boolean force) {
-		logger.info("BEFORE [{}] [{}]", serviceEntity.hashCode(), CommonUtil.asJsonString(serviceEntity));
+		logger.info("Before update [{}] [{}]", serviceEntity.hashCode(), CommonUtil.asJsonString(serviceEntity));
 		Objects.requireNonNull(serviceEntity);
 		Objects.requireNonNull(service);
 		final ModelMapper modelMapper = new ModelMapper();
@@ -90,7 +90,6 @@ public class ServiceModelMapper {
 				when(Conditions.isNotNull()).map().setImageName(source.getImageName());
 				when(Conditions.isNotNull()).map().setImageTag(source.getImageTag());
 				when(Conditions.isNotNull()).map().setRegistryUrl(source.getRegistryUrl());
-				when(Conditions.isNotNull()).map().setServiceType(source.getServiceType());
 				when(Conditions.isNotNull()).map().setDescription(source.getDescription());
 				when(Conditions.isNotNull()).map().setServicePort(source.getServicePort());
 				when(Conditions.isNotNull()).map().setSidecarPort(source.getSidecarPort());
@@ -98,6 +97,7 @@ public class ServiceModelMapper {
 				when(Conditions.isNotNull()).map().setIdx(source.getIdx());
 				skip().setId(null);
 				skip().setName(null);
+				skip().setServiceType(null);
 				skip().setNamespace(null);
 				skip().setCreatedOn(null);
 				skip().setModifiedOn(null);
@@ -109,6 +109,6 @@ public class ServiceModelMapper {
 		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 		modelMapper.addMappings(serviceMap);
 		modelMapper.map(service, serviceEntity);
-		logger.info("AFTER [{}] [{}]", serviceEntity.hashCode(), CommonUtil.asJsonString(serviceEntity));
+		logger.info("After update [{}] [{}]", serviceEntity.hashCode(), CommonUtil.asJsonString(serviceEntity));
 	}
 }

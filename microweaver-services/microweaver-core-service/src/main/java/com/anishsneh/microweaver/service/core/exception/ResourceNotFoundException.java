@@ -11,27 +11,27 @@ public class ResourceNotFoundException extends ResourceException {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	/** The service id. */
-	private long serviceId;
+	/** The resource id. */
+	private String resourceId;
 	
 	/**
 	 * Instantiates a new resource not found exception.
 	 *
 	 * @param errorCode the error code
 	 * @param message the message
-	 * @param serviceId the service id
+	 * @param resourceId the resource id
 	 */
-	public ResourceNotFoundException(final String errorCode, final String message, final long serviceId) {
+	public ResourceNotFoundException(final String errorCode, final String message, final String resourceId) {
 		super(errorCode, message);
-		this.serviceId = serviceId;
+		this.resourceId = resourceId;
 	}
 	
 	/**
-	 * Gets the service id.
+	 * Gets the resource id.
 	 *
-	 * @return the service id
+	 * @return the resource id
 	 */
-	public long getServiceId() {
-		return serviceId;
+	public String getResourceId() {
+		return resourceId;
 	}
 }

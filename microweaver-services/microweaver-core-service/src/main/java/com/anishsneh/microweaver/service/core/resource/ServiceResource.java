@@ -62,7 +62,7 @@ public class ServiceResource {
 			})
 	public ResponseEntity<Service> getServiceById(
 			@ApiParam(value = "Service id to be retrieved", required = true, example = "23") 
-			@PathVariable final int id
+			@PathVariable final long id
 			){
 		final Service service = serviceHelper.validateServiceId(id);
 		logger.info("Retrieved service: " + service.toString());
@@ -108,7 +108,7 @@ public class ServiceResource {
 			})
 	public ResponseEntity<Message> deleteServiceById(
 			@ApiParam(value = "Service id to be deleted", required = true, example = "23") 
-			@PathVariable final int id
+			@PathVariable final long id
 			){
 		final Service service = serviceHelper.validateServiceId(id);
 		if(!serviceHelper.isDeletable(service)) {
@@ -138,7 +138,7 @@ public class ServiceResource {
 			})
 	public ResponseEntity<Service> updateService(
 			@ApiParam(value = "Service id to be updated", required = true, example = "25") 
-			@PathVariable final int id,
+			@PathVariable final long id,
 			@RequestBody final Service service,
 			@ApiParam(value = "true, if sync required; it will include activate flag as well otherwise ignored", required = true, example = "true")
 			@RequestParam(name = "sync", required = false) boolean sync
