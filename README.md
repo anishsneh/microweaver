@@ -169,7 +169,7 @@ It needs atleast 4 CPUs &amp; 8GB memory for development VM.
 12. From local browser navigate to http://192.168.57.150:30090 &amp; check Spring Boot Admin console, you should see microweaver platform services deployed:
 ![Admin Service | http://www.anishsneh.com](https://user-images.githubusercontent.com/5123162/30037663-02a29482-91b5-11e7-8ad4-527b068f7df5.png)
 13. From local browser navigate to http://192.168.57.150:30080/api/core-service/swagger-ui.html &amp; check docs, you should see API docs:
-![API Docs | http://www.anishsneh.com](https://user-images.githubusercontent.com/5123162/29532799-ca1fae1a-86a6-11e7-8b9a-21a475798122.png)
+![API Docs | http://www.anishsneh.com](https://user-images.githubusercontent.com/5123162/30491840-8aec3db4-9a36-11e7-83fc-2979dbba2072.png)
 ### Information
 | Service/Component Name | Port | URL/Context
 | ------ | ------ | ------ |
