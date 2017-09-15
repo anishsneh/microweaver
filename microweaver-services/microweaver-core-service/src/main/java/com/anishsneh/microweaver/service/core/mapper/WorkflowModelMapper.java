@@ -111,7 +111,6 @@ public class WorkflowModelMapper {
 			};
 			protected void configure() {
 				when(Conditions.isNotNull()).using(tasksToStringConvertor).map(source.getTasks()).setTasks(null);
-				when(Conditions.isNotNull()).map().setWorkflowType(source.getWorkflowType());
 				when(Conditions.isNotNull()).map().setDescription(source.getDescription());
 				skip().setId(null);
 				skip().setName(null);
