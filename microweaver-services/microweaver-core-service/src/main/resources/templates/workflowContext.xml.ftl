@@ -35,20 +35,20 @@
 		<#assign taskCounterNext = (taskCounter + 1)>
 		<#assign tasksSize = (tasks?size)>
 		<#if taskCounter != tasksSize>
-			<int:service-activator ref="${task.key}Bean" method="execute" input-channel="${task.key}InputChannel" output-channel="${tasks[taskCounter].key}InputChannel" />
+			<int:service-activator ref="${task.ekey}Bean" method="execute" input-channel="${task.ekey}InputChannel" output-channel="${tasks[taskCounter].ekey}InputChannel" />
 		<#else>
-			<int:service-activator ref="${task.key}Bean" method="execute" input-channel="${task.key}InputChannel" output-channel="responseChannel" />
+			<int:service-activator ref="${task.ekey}Bean" method="execute" input-channel="${task.ekey}InputChannel" output-channel="responseChannel" />
 		</#if>
 	</#list>
 	  
 	<!-- Channels for workflow tasks -->
 	<#list tasks as task>
-		<int-amqp:channel id="${task.key}InputChannel" connection-factory="connectionFactory" message-driven="true" queue-name="queue.microweaver.${task.key}Queue" message-converter="jsonMessageConverter" extract-payload="true" />
+		<int-amqp:channel id="${task.ekey}InputChannel" connection-factory="connectionFactory" message-driven="true" queue-name="queue.microweaver.${task.ekey}Queue" message-converter="jsonMessageConverter" extract-payload="true" />
     </#list>
     
     <!-- Bean definitions for workflow tasks -->
     <#list tasks as task>
-    		<bean class="com.anishsneh.microweaver.service.workflow.activator.TaskExecutor" id="${task.key}Bean">
+    		<bean class="com.anishsneh.microweaver.service.workflow.activator.TaskExecutor" id="${task.ekey}Bean">
 	    		<constructor-arg value="${task.name}"/>
 	    		<constructor-arg value="${task.serviceUri}"/>
 	    		<constructor-arg value="${task.serviceMethod}"/>
