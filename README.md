@@ -186,7 +186,7 @@ It needs atleast 4 CPUs &amp; 8GB memory for development VM.
 For service to be discoverable you MUST USE following application properties:
 ```sh
 eureka.instance.hostname=${MICROSERVICE_SERVICE_NAME}
-eureka.instance.preferIpAddress=false
+eureka.instance.preferIpAddress=true
 eureka.client.serviceUrl.defaultZone=${SYSTEM_REGISTRY_DEFAULT_ZONE}
 ```
 > Note that development cluster is all-in-one Kubernetes cluster (master & minion on the same node) with RabbitMQ &amp; MariaDB services (based on CentOS 7). The ip address of development cluster is 192.168.57.150 by default, it is configurable via Vagrantfile (if required).
