@@ -1,6 +1,6 @@
 # Microweaver
-Microweaver is a microservice orchestration framework based on Spring Boot, Kubernetes, MySQL &amp; RabbitMQ.
-This repository includes core framework, samples services, maven plugin configurations for development. It also includes Vagrant &amp; Ansible based development environment definitions to start with development cluster. | [http://www.anishsneh.com](http://www.anishsneh.com)
+Microweaver is a scalable microservice orchestration framework built upon Spring Boot, Kubernetes, MySQL &amp; RabbitMQ.
+This repository includes core framework, service discovery, load balancing &amp; samples services, maven plugin configurations for development. It also includes Vagrant &amp; Ansible based development environment definitions to start with development cluster. | [http://www.anishsneh.com](http://www.anishsneh.com)
 
 ### Components
 * Container Infrastructure
